@@ -6,7 +6,7 @@ export default function Home() {
       </h1>
 
       <p className="mt-4">
-        Welcome to our booking platform.
+        Welcome to our Reservation platform.
       </p>
     </main>
   );
