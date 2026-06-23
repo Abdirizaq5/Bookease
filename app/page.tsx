@@ -31,7 +31,7 @@ export default function HomePage() {
           </h2>
 
           <p className="mb-8 text-lg text-blue-100">
-            Schedule appointments easily, manage reservations, and receive
+            Schedule appointments easily, manage reservations and receive
             instant confirmations.
           </p>
 
@@ -108,8 +108,12 @@ export default function HomePage() {
             <select className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-blue-500">
               <option>Select Service</option>
               <option>Consultation</option>
+              <option>Fitness Training</option>
               <option>Medical Checkup</option>
               <option>Business Meeting</option>
+              <option>Haircut & Styling</option>
+              <option>Photography Session</option>
+              <option>Car Service</option>
             </select>
 
             <input
