@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { Appointment } from "@prisma/client";
+import type { Appointment } from "@/app/generated/prisma";
 
 // Request body type
 interface CreateAppointmentRequest {

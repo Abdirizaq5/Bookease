@@ -10,7 +10,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -42,7 +41,6 @@ model User {
 
 model Appointment {
   id              String @id @default(cuid())
-
   appointmentDate DateTime
 
   status AppointmentStatus @default(PENDING)
