@@ -14,7 +14,7 @@ export default function HomePage() {
               Features
             </a>
             <a href="#booking" className="hover:text-blue-200">
-              BookEase
+              Book
             </a>
             <a href="#contact" className="hover:text-blue-200">
               Contact
