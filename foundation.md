@@ -1,4 +1,4 @@
-# Phase 0 — Foundation & Cleanup
+<!-- # Phase 0 — Foundation & Cleanup
 
 **Status:** 🟡 In progress
 **Goal:** get the project into a clean state where it installs, builds, runs, and can
@@ -45,8 +45,8 @@ Concepts are explained inline as you hit them.
 Work top to bottom. Tick a box by changing `- [ ]` to `- [x]`.
 
 ### 1. Install dependencies
-- [ ] Run `npm install` in the project root.
-- [ ] Confirm a `node_modules/` folder appeared and there are **no red errors** at the end.
+- [x] Run `npm install` in the project root.
+- [x] Confirm a `node_modules/` folder appeared and there are **no red errors** at the end.
 
 **Why:** the project lists its libraries in `package.json`, but the actual library code
 lives in `node_modules/`, which is **not** committed to git (see `.gitignore`). Until you
@@ -63,9 +63,9 @@ Open <http://localhost:3000>. You should see the BookEase landing page. Press `C
 ---
 
 ### 2. Read the mandated Next.js docs (now that they exist)
-- [ ] List what's available: `ls node_modules/next/dist/docs/`
-- [ ] Open the guide most relevant to **pages/routing** and skim it.
-- [ ] Note (in your own words, in the "Notes" section at the bottom) anything that
+- [x] List what's available: `ls node_modules/next/dist/docs/`
+- [x] Open the guide most relevant to **pages/routing** and skim it.
+- [x] Note (in your own words, in the "Notes" section at the bottom) anything that
       differs from the public tutorials — especially **deprecation notices**.
 
 **Why:** `AGENTS.md` requires this. Different Next.js versions change APIs; we don't want
@@ -84,14 +84,14 @@ src/app/      ← dead copies (older, half-commented). Next.js ignores these.
 Because a root `app/` folder exists, Next.js never looks in `src/`. Those files are a
 trap — someone will eventually edit `src/app/page.tsx` and wonder why nothing changes.
 
-- [ ] Confirm the real app is the root one: `app/page.tsx` is the landing page you saw in the browser.
-- [ ] Delete the entire `src/` directory:
+- [x] Confirm the real app is the root one: `app/page.tsx` is the landing page you saw in the browser.
+- [x] Delete the entire `src/` directory:
 
 ```bash
 rm -rf src
 ```
 
-- [ ] Run `npm run dev` again — landing page still loads, no new errors.
+- [x] Run `npm run dev` again — landing page still loads, no new errors.
 
 **Why one folder:** Next.js supports *either* `app/` at the root *or* `src/app/`, not both
 at once. Mixing them creates confusion and dead code. We're standardizing on root `app/`.
@@ -110,9 +110,9 @@ React component to render.
 **👉 Open the guide file [`book-page.txt`](./book-page.txt) and follow it step by step.**
 It walks you through exactly what to type, with the "why" behind each part.
 
-- [ ] Read `book-page.txt` top to bottom.
-- [ ] Type the page component into `app/book/page.tsx` (a heading + a static form).
-- [ ] Make sure the file has `export default function BookPage() { ... }`.
+- [x] Read `book-page.txt` top to bottom.
+- [x] Type the page component into `app/book/page.tsx` (a heading + a static form).
+- [x] Make sure the file has `export default function BookPage() { ... }`.
 
 **The short version of what you're writing:**
 ```tsx
@@ -147,16 +147,16 @@ every database call currently fails.
 step by step. Then use [`env-example.txt`](./env-example.txt), which explains the
 connection string piece by piece.
 
-- [ ] Get a Neon database and connection string — see [`neon-setup.md`](./neon-setup.md).
-- [ ] Create a file named exactly `.env` in the project root (same folder as `package.json`).
-- [ ] Put one line in it (replace the placeholder with your **real** Neon value):
+- [x] Get a Neon database and connection string — see [`neon-setup.md`](./neon-setup.md).
+- [x] Create a file named exactly `.env` in the project root (same folder as `package.json`).
+- [x] Put one line in it (replace the placeholder with your **real** Neon value):
 ```bash
 # .env  (git-ignored — never commit real secrets)
 DATABASE_URL="postgresql://USER:PASSWORD@HOST/DBNAME?sslmode=require"
 ```
-- [ ] Get the real value from your Neon dashboard (Connection Details → connection string).
+- [x] Get the real value from your Neon dashboard (Connection Details → connection string).
       If you don't have access, ask the reviewer.
-- [ ] Run `git status` and confirm `.env` does **not** appear in the list.
+- [x] Run `git status` and confirm `.env` does **not** appear in the list.
 
 **Why `.env`:** secrets (passwords, API keys) must **never** be committed to git. Look at
 `.gitignore` — it already ignores `.env*`. The app reads this value at runtime via
@@ -171,16 +171,16 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST/DBNAME?sslmode=require"
 Your Prisma **schema** (`prisma/schema.prisma`) describes the tables you *want*. A
 **migration** is the step that actually creates them in the real database.
 
-- [ ] Run the first migration:
+- [x] Run the first migration:
 ```bash
 npx prisma migrate dev --name init
 ```
-- [ ] Generate the Prisma client (often runs automatically with the line above, but run
+- [ x] Generate the Prisma client (often runs automatically with the line above, but run
       it to be sure):
 ```bash
 npx prisma generate
 ```
-- [ ] Confirm a `prisma/migrations/` folder now exists with an `init` migration inside.
+- [x] Confirm a `prisma/migrations/` folder now exists with an `init` migration inside.
 
 **Check it worked — look at your tables:**
 ```bash
@@ -200,9 +200,9 @@ This opens a browser UI. You should see empty `User` and `Appointment` tables. �
 **File to edit:** `app/layout.tsx`. **👉 Follow the guide
 [`layout-metadata.txt`](./layout-metadata.txt).**
 
-- [ ] **Page title:** in `app/layout.tsx`, the `metadata` object still says
+- [x] **Page title:** in `app/layout.tsx`, the `metadata` object still says
       *"Create Next App"*. Change `title` and `description` to real BookEase text.
-- [ ] **Stray file:** delete the duplicate `app/favicon1.ico` (keep `app/favicon.ico`):
+- [x] **Stray file:** delete the duplicate `app/favicon1.ico` (keep `app/favicon.ico`):
       `rm app/favicon1.ico`
 
 **What you're changing it to:**
@@ -221,10 +221,10 @@ real app should set its own.
 ---
 
 ### 8. Final verification
-- [ ] `npm run build` completes with **no errors**.
-- [ ] `npm run dev` runs; these all load without crashing:
+- [x] `npm run build` completes with **no errors**.
+- [x] `npm run dev` runs; these all load without crashing:
       `/` (landing), `/book`, `/dashboard`.
-- [ ] `npx prisma studio` shows the `User` and `Appointment` tables.
+- [x] `npx prisma studio` shows the `User` and `Appointment` tables.
 
 When all boxes above are ticked, **stop and ask for a review.** Don't start Phase 1 yet.
 
@@ -232,13 +232,13 @@ When all boxes above are ticked, **stop and ask for a review.** Don't start Phas
 
 ## ✅ Definition of done (what the reviewer will check)
 
-- [ ] `node_modules` installed; `npm run build` passes cleanly
-- [ ] `src/` directory is gone; only root `app/` remains
-- [ ] `app/book/page.tsx` renders a page (has a default export)
-- [ ] `.env` exists locally with `DATABASE_URL` (and is **not** committed)
-- [ ] `prisma/migrations/` exists; Prisma Studio shows both tables
-- [ ] `app/layout.tsx` metadata updated; `favicon1.ico` removed
-- [ ] All three routes load in the browser without errors
+- [x] `node_modules` installed; `npm run build` passes cleanly
+- [x] `src/` directory is gone; only root `app/` remains
+- [x] `app/book/page.tsx` renders a page (has a default export)
+- [x] `.env` exists locally with `DATABASE_URL` (and is **not** committed)
+- [x] `prisma/migrations/` exists; Prisma Studio shows both tables
+- [x] `app/layout.tsx` metadata updated; `favicon1.ico` removed
+- [x] All three routes load in the browser without errors
 
 ---
 
@@ -272,4 +272,214 @@ When all boxes above are ticked, **stop and ask for a review.** Don't start Phas
 - Next.js — Environment variables: <https://nextjs.org/docs/app/guides/environment-variables>
 - Prisma — `migrate dev`: <https://www.prisma.io/docs/orm/prisma-migrate/workflows/development-and-production>
 - Prisma — Prisma Studio: <https://www.prisma.io/docs/orm/tools/prisma-studio>
-- Neon — connection strings: <https://neon.tech/docs/connect/connect-from-any-app>
+- Neon — connection strings: <https://neon.tech/docs/connect/connect-from-any-app> -->
+
+
+
+# Phase 1 — Data Model & Database
+
+**Status:** 🟡 In progress
+**Goal:** understand the schema deeply, practice the migration workflow with one real
+change, and seed realistic sample data you can see and query.
+
+> 👋 **Beginner note:** the *understanding* tasks (1 & 2) matter as much as the typing
+> tasks. Don't skip them — they make everything later click. After each task, check the
+> result before moving on. Stuck? See [`troubleshooting.md`](./troubleshooting.md).
+
+> 📌 **From Phase 0 (please tidy first):** fill in your empty Phase 0 Notes, and decide
+> what to do with the duplicate `foundation.md` at the project root. See
+> [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) for details.
+
+---
+
+## What you'll learn in this phase
+
+- How to **read** a Prisma schema fluently (models, fields, types, relations, enums)
+- What a **migration** is and the everyday workflow: *change schema → migrate → commit*
+- Why `@updatedAt` exists and how Prisma manages timestamps
+- How to **seed** a database and how `create` + nested relations work
+- How to **inspect and query** data with Prisma Studio
+
+---
+
+## Tasks
+
+Work top to bottom. Tick a box by changing `- [ ]` to `- [x]`.
+
+### 1. Understand the schema (reading — no code)
+**👉 Open [`schema-guide.md`](./schema-guide.md)** and read it with `prisma/schema.prisma`
+open beside it.
+
+- [X] Read the whole guide.
+- [X] Answer the 5 "self-check" questions at the end **in your Notes section** (bottom of
+      this file). Writing them out is how you prove (to yourself) that you understood.
+
+**Why:** every later feature reads/writes this database. Ten minutes of real understanding
+now saves hours of confusion later.
+
+---
+
+### 2. Make sure your database matches the schema
+Before changing anything, confirm your local setup is healthy.
+
+- [X] Run `npx prisma studio` — it should open and show empty `User` and `Appointment`
+      tables (you haven't seeded yet).
+- [X] If Studio can't connect, fix `.env` first (see [`troubleshooting.md`](./troubleshooting.md)).
+
+**Why:** you want a known-good starting point so that if something breaks in Task 3, you
+know it was *your* change — not a pre-existing problem.
+
+---
+
+### 3. Make a schema change + create a migration
+You'll add an `updatedAt` field to **both** models. This is a small, genuinely useful
+change — and the point is to practise the **migration workflow** end to end.
+
+**File to edit:** `prisma/schema.prisma`. Add this line to **both** `User` and
+`Appointment` (a good spot is right after their `createdAt` line):
+
+```prisma
+updatedAt DateTime @updatedAt
+```
+
+So `User` ends like:
+```prisma
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+```
+…and do the same inside `Appointment`.
+
+- [X] Add `updatedAt DateTime @updatedAt` to `User`
+- [X] Add `updatedAt DateTime @updatedAt` to `Appointment`
+- [X] Create the migration:
+```bash
+npx prisma migrate dev --name add_updated_at
+```
+- [ ] Confirm a **new** folder appeared under `prisma/migrations/` (e.g.
+      `..._add_updated_at/`), then commit it:
+```bash
+git add prisma/schema.prisma prisma/migrations
+git commit -m "Add updatedAt to User and Appointment"
+```
+
+**Why `@updatedAt`:** Prisma automatically sets this field to the current time **every time
+a row is updated** (and on create). You never set it by hand. It's the standard way to
+track "when was this last changed" — useful for sorting and debugging.
+
+**Why migrate *now*, before seeding:** `updatedAt` is a required column. Adding a required
+column to a table is only safe while the table is **empty** (no existing rows to leave
+without a value). Your tables are empty right now, so this is the safe moment. (A neat
+real-world lesson about required columns.)
+
+> 🧠 **The migration workflow, in one line:** edit `schema.prisma` → run
+> `prisma migrate dev --name <something>` → Prisma writes the SQL, applies it, and
+> regenerates the client → you commit the migration. You'll repeat this every time the data
+> model changes.
+
+---
+
+### 4. Seed the database with sample data
+Now fill the empty tables with predictable demo data.
+
+**4a. Install the TypeScript runner** (lets us run a `.ts` script directly):
+```bash
+npm install -D tsx
+```
+*Why:* `prisma/seed.ts` is TypeScript. `tsx` runs TypeScript files without a separate
+build step.
+
+**4b. Tell Prisma how to seed.** **File to edit:** `prisma.config.ts`. Add a `seed` line
+inside the existing `migrations` block:
+```ts
+  migrations: {
+    path: "prisma/migrations",
+    seed: "tsx prisma/seed.ts",
+  },
+```
+*Why:* `npx prisma db seed` looks here to know *which command* runs your seed script.
+
+**4c. Write the seed script.** **👉 Open [`seed-script.txt`](./seed-script.txt)** and follow
+it to create **`prisma/seed.ts`**.
+- [ ] `prisma/seed.ts` created (an admin + a customer with 2 appointments)
+
+**4d. Run the seed:**
+```bash
+npx prisma db seed
+```
+- [ ] You see the "✅ Seeded users…" message with no errors.
+
+**4e. Commit your work:**
+```bash
+git add prisma/seed.ts prisma.config.ts package.json package-lock.json
+git commit -m "Add database seed script with sample data"
+```
+
+---
+
+### 5. Inspect and query your data
+- [X] Run `npx prisma studio`.
+- [X] Open the **User** table — you should see Ada (ADMIN) and Charlie (CUSTOMER).
+- [X] Open the **Appointment** table — you should see Charlie's 2 appointments.
+- [X] Click into Charlie and confirm his appointments are linked to him (the relation works).
+- [X] **Prove the seed is re-runnable:** run `npx prisma db seed` again. It should succeed
+      (no "email already exists" error) because the script wipes the tables first.
+
+**Why:** Studio is your window into the database. Being able to *see* your data — and how
+relations connect rows — is a core skill for the rest of the project.
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+
+- [X] You can explain the schema (your 5 self-check answers are in Notes)
+- [X] `User` and `Appointment` both have `updatedAt DateTime @updatedAt`
+- [X] A new `..._add_updated_at` migration exists and is committed
+- [X] `prisma/seed.ts` exists and `npx prisma db seed` runs cleanly (and is re-runnable)
+- [X] `prisma.config.ts` has the `seed` command; `tsx` is in `devDependencies`
+- [X] Prisma Studio shows the seeded users and linked appointments
+- [X] `npm run build` still passes
+- [X] Notes section filled in
+
+When everything's ticked, **stop and ask for a review.** Don't start Phase 2.
+
+---
+
+## Common mistakes to avoid
+
+- **Seeding before migrating.** Do Task 3 (migrate) before Task 4 (seed) — see the "why"
+  in Task 3.
+- **Forgetting to commit the migration folder.** The `prisma/migrations/...` folder is part
+  of your project history — always commit it.
+- **Storing a real password.** The seed hashes the password with bcrypt — never store plain
+  text.
+- **Deleting users before their appointments.** The seed deletes appointments first because
+  of the foreign key. If you reverse it, you'll get a constraint error.
+
+---
+
+## Notes (fill this in as you go)
+
+> Your 5 self-check answers from Task 1, plus anything surprising and any errors you hit
+> and how you fixed them.
+
+**Schema self-check answers:**
+1.Email is unique, while phone is just a required string and doesn't have to be unique.
+2.Notes is optonal, appointmentDate is required (always must have a value).
+3.UserId is foreign key pointing to user.Id
+4.Appoinment is not a real DB column, it's a relation.
+5.Passwords are hashed strings not plain text.
+
+**Other notes:**
+-
+-
+
+---
+
+## Resources
+
+- Prisma — Migrations (`migrate dev`): <https://www.prisma.io/docs/orm/prisma-migrate/getting-started>
+- Prisma — `@updatedAt`: <https://www.prisma.io/docs/orm/reference/prisma-schema-reference#updatedat>
+- Prisma — Seeding: <https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding>
+- Prisma — CRUD (`create`, nested writes): <https://www.prisma.io/docs/orm/prisma-client/queries/crud>
+- Prisma — Studio: <https://www.prisma.io/docs/orm/tools/prisma-studio>

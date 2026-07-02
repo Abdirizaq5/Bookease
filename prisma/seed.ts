@@ -52,6 +52,7 @@ const customer = await prisma.user.create({
       },
     },
   });
+  
   console.log("✅ Seeded users:", admin.email, "and", customer.email);
 }
 
