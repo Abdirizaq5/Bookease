@@ -523,19 +523,19 @@ Generate a real secret (works on Windows, Mac, Linux) and paste its output as th
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
-- [ ] `.env` has `NEXTAUTH_SECRET` (a long random value) and `NEXTAUTH_URL`
+- [x] `.env` has `NEXTAUTH_SECRET` (a long random value) and `NEXTAUTH_URL`
 
 **Why:** `NEXTAUTH_SECRET` is used to **sign** the login token so it can't be faked.
 `NEXTAUTH_URL` tells NextAuth where your app lives. (Both stay out of git — `.env` is ignored.)
 
 ### A2. Create the auth config
 **👉 Follow [`auth-config.txt`](./auth-config.txt)** to create **`lib/auth.ts`**.
-- [ ] `lib/auth.ts` created
+- [x] `lib/auth.ts` created
 
 ### A3. Add the TypeScript types
 **👉 Follow [`auth-types.txt`](./auth-types.txt)** to create **`types/next-auth.d.ts`**
 (create the `types/` folder at the project root).
-- [ ] `types/next-auth.d.ts` created
+- [x] `types/next-auth.d.ts` created
 
 ### A4. Create the NextAuth route
 Create the file **`app/api/auth/[...nextauth]/route.ts`** (yes, the folder name includes the
@@ -548,15 +548,15 @@ const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
 ```
-- [ ] File created
+- [x] File created
 
 **Why the weird `[...nextauth]` name:** it's a **catch-all route**. NextAuth needs several
 URLs (`/api/auth/signin`, `/api/auth/session`, `/api/auth/callback/...`). This one file
 handles all of them. You import your shared `authOptions` so everything uses the same config.
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes with no errors.
-- [ ] `npm run dev`, then open <http://localhost:3000/api/auth/providers> — you should see a
+- [x] `npm run build` passes with no errors.
+- [x] `npm run dev`, then open <http://localhost:3000/api/auth/providers> — you should see a
       small JSON blob mentioning `credentials`. That means the engine is wired up. 🎉
 
 ---
@@ -568,17 +568,17 @@ Now people can create accounts.
 ### B1. Create the register API
 **👉 Follow [`register-api.txt`](./register-api.txt)** to create
 **`app/api/register/route.ts`**.
-- [ ] File created
+- [x] File created
 
 ### B2. Create the signup page
 **👉 Follow [`signup-page.txt`](./signup-page.txt)** to create **`app/signup/page.tsx`**.
-- [ ] File created
+- [x] File created
 
 ### ✅ Test this Part
-- [ ] Visit <http://localhost:3000/signup>, fill the form, submit.
-- [ ] Open `npx prisma studio` → a **new User** appears, and its `password` is a long
+- [x] Visit <http://localhost:3000/signup>, fill the form, submit.
+- [x] Open `npx prisma studio` → a **new User** appears, and its `password` is a long
       **hash** (like `$2a$10$…`), never the text you typed.
-- [ ] Try signing up again with the **same email** → you should see
+- [x] Try signing up again with the **same email** → you should see
       "An account with this email already exists".
 
 ---
@@ -590,7 +590,7 @@ Now accounts can actually log in, and the app remembers them.
 ### C1. Create the session provider
 **👉 Follow [`session-provider.txt`](./session-provider.txt)** to create
 **`app/providers.tsx`**.
-- [ ] File created
+- [x] File created
 
 ### C2. Wrap the app in the provider
 **File to edit:** `app/layout.tsx`. Import the provider and wrap `{children}` with it:
@@ -601,20 +601,20 @@ import Providers from "./providers";
         <Providers>{children}</Providers>
       </body>
 ```
-- [ ] `layout.tsx` wraps children in `<Providers>`
+- [x] `layout.tsx` wraps children in `<Providers>`
 
 **Why:** this makes the "who's logged in?" information available to every component in the
 app (see `session-provider.txt` for the full reason).
 
 ### C3. Create the login page
 **👉 Follow [`login-page.txt`](./login-page.txt)** to create **`app/login/page.tsx`**.
-- [ ] File created
+- [x] File created
 
 ### ✅ Test this Part
-- [ ] Visit <http://localhost:3000/login>. Log in with the **seeded admin**:
+- [x] Visit <http://localhost:3000/login>. Log in with the **seeded admin**:
       `admin@bookease.com` / `Password123!` (from your Phase 1 seed).
-- [ ] A **wrong** password shows "Invalid email or password".
-- [ ] A correct login sends you to the home page with no error.
+- [x] A **wrong** password shows "Invalid email or password".
+- [x] A correct login sends you to the home page with no error.
 
 ---
 
@@ -625,7 +625,7 @@ Finally, lock things down.
 ### D1. Add the middleware
 **👉 Follow [`middleware.txt`](./middleware.txt)** to create **`middleware.ts`** at the
 **project root** (next to `package.json`).
-- [ ] `middleware.ts` created
+- [x] `middleware.ts` created
 
 ### D2. Make the dashboard admin-only
 **File to edit:** `app/dashboard/page.tsx`. Turn it into a server component that checks the
