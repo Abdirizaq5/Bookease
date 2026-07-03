@@ -658,7 +658,7 @@ export default async function Dashboard() {
   );
 }
 ```
-- [ ] Dashboard checks the session and redirects non-admins
+- [x] Dashboard checks the session and redirects non-admins
 
 **Why on the page (not middleware):** middleware already ensured "logged in." The finer rule
 "must be an ADMIN" is clearest right here, using `getServerSession` to read the role on the
@@ -681,29 +681,29 @@ export function SignOutButton() {
   );
 }
 ```
-- [ ] File created
+- [x] File created
 
 **Why `"use client"`:** the button responds to a click (`onClick`) and calls `signOut`, both
 of which run in the browser — so it must be a client component.
 
 ### ✅ Test this Part (the big end-to-end test)
-- [ ] **Logged out**, visit `/dashboard` → you're redirected to `/login`.
-- [ ] Log in as a **CUSTOMER** (make one at `/signup`) → visiting `/dashboard` sends you to
+- [x] **Logged out**, visit `/dashboard` → you're redirected to `/login`.
+- [x] Log in as a **CUSTOMER** (make one at `/signup`) → visiting `/dashboard` sends you to
       the home page (customers aren't admins).
-- [ ] Log in as the **ADMIN** (`admin@bookease.com` / `Password123!`) → `/dashboard` opens
+- [x] Log in as the **ADMIN** (`admin@bookease.com` / `Password123!`) → `/dashboard` opens
       and shows "Signed in as Ada Admin" with a **Sign out** button.
-- [ ] Click **Sign out** → you're logged out and back on the home page.
+- [x] Click **Sign out** → you're logged out and back on the home page.
 
 ---
 
 ## ✅ Definition of done (what the reviewer will check)
-- [ ] Sign up creates a user with a **hashed** password
-- [ ] Login works; wrong passwords are rejected
-- [ ] `/book` and `/dashboard` redirect logged-out users to `/login`
-- [ ] `/dashboard` is **admin-only** (customers get redirected)
-- [ ] Sign out works
-- [ ] `npm run build` passes
-- [ ] Notes section filled in
+- [x] Sign up creates a user with a **hashed** password
+- [x] Login works; wrong passwords are rejected
+- [x] `/book` and `/dashboard` redirect logged-out users to `/login`
+- [x] `/dashboard` is **admin-only** (customers get redirected)
+- [x] Sign out works
+- [x] `npm run build` passes
+- [x] Notes section filled in
 
 When all Parts pass, **stop and ask for a review.** Don't start Phase 3.
 
