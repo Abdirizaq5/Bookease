@@ -276,7 +276,7 @@ When all boxes above are ticked, **stop and ask for a review.** Don't start Phas
 
 
 
-# Phase 1 — Data Model & Database
+<!-- # Phase 1 — Data Model & Database
 
 **Status:** 🟡 In progress
 **Goal:** understand the schema deeply, practice the migration workflow with one real
@@ -482,4 +482,257 @@ When everything's ticked, **stop and ask for a review.** Don't start Phase 2.
 - Prisma — `@updatedAt`: <https://www.prisma.io/docs/orm/reference/prisma-schema-reference#updatedat>
 - Prisma — Seeding: <https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding>
 - Prisma — CRUD (`create`, nested writes): <https://www.prisma.io/docs/orm/prisma-client/queries/crud>
-- Prisma — Studio: <https://www.prisma.io/docs/orm/tools/prisma-studio>
+- Prisma — Studio: <https://www.prisma.io/docs/orm/tools/prisma-studio> -->
+
+
+
+# Phase 2 — Authentication & Roles
+
+**Status:** 🟡 In progress
+**Goal:** users can sign up, log in, and log out; `/book` and `/dashboard` are protected;
+and only an **ADMIN** can open the dashboard.
+
+> 👋 **Beginner note:** this phase is bigger than the others, so it's split into **4 Parts
+> (A–D)**. Do **one Part at a time** and run its "✅ Test this Part" step before moving on.
+> If a Part's test fails, fix it before continuing — auth files depend on each other.
+
+> 📚 **Read [`auth-concepts.md`](./auth-concepts.md) first** if you haven't. The code below
+> will make much more sense.
+
+---
+
+## What you'll learn
+- How password login works with NextAuth (credentials + JWT sessions)
+- How to hash & verify passwords, and why we never store plain text
+- How to protect pages with middleware and check roles on the server
+- The Next.js "client component" and "provider" patterns
+
+---
+
+# Part A — The auth engine ⚙️
+
+This Part sets up the machinery. Nothing visible yet — but it's the foundation.
+
+### A1. Add two secrets to `.env`
+Open your `.env` and add these two lines:
+```bash
+NEXTAUTH_SECRET="paste-a-long-random-string-here"
+NEXTAUTH_URL="http://localhost:3000"
+```
+Generate a real secret (works on Windows, Mac, Linux) and paste its output as the value:
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+- [ ] `.env` has `NEXTAUTH_SECRET` (a long random value) and `NEXTAUTH_URL`
+
+**Why:** `NEXTAUTH_SECRET` is used to **sign** the login token so it can't be faked.
+`NEXTAUTH_URL` tells NextAuth where your app lives. (Both stay out of git — `.env` is ignored.)
+
+### A2. Create the auth config
+**👉 Follow [`auth-config.txt`](./auth-config.txt)** to create **`lib/auth.ts`**.
+- [ ] `lib/auth.ts` created
+
+### A3. Add the TypeScript types
+**👉 Follow [`auth-types.txt`](./auth-types.txt)** to create **`types/next-auth.d.ts`**
+(create the `types/` folder at the project root).
+- [ ] `types/next-auth.d.ts` created
+
+### A4. Create the NextAuth route
+Create the file **`app/api/auth/[...nextauth]/route.ts`** (yes, the folder name includes the
+square brackets). Type this:
+```ts
+import NextAuth from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
+```
+- [ ] File created
+
+**Why the weird `[...nextauth]` name:** it's a **catch-all route**. NextAuth needs several
+URLs (`/api/auth/signin`, `/api/auth/session`, `/api/auth/callback/...`). This one file
+handles all of them. You import your shared `authOptions` so everything uses the same config.
+
+### ✅ Test this Part
+- [ ] `npm run build` passes with no errors.
+- [ ] `npm run dev`, then open <http://localhost:3000/api/auth/providers> — you should see a
+      small JSON blob mentioning `credentials`. That means the engine is wired up. 🎉
+
+---
+
+# Part B — Sign up 📝
+
+Now people can create accounts.
+
+### B1. Create the register API
+**👉 Follow [`register-api.txt`](./register-api.txt)** to create
+**`app/api/register/route.ts`**.
+- [ ] File created
+
+### B2. Create the signup page
+**👉 Follow [`signup-page.txt`](./signup-page.txt)** to create **`app/signup/page.tsx`**.
+- [ ] File created
+
+### ✅ Test this Part
+- [ ] Visit <http://localhost:3000/signup>, fill the form, submit.
+- [ ] Open `npx prisma studio` → a **new User** appears, and its `password` is a long
+      **hash** (like `$2a$10$…`), never the text you typed.
+- [ ] Try signing up again with the **same email** → you should see
+      "An account with this email already exists".
+
+---
+
+# Part C — Log in 🔑
+
+Now accounts can actually log in, and the app remembers them.
+
+### C1. Create the session provider
+**👉 Follow [`session-provider.txt`](./session-provider.txt)** to create
+**`app/providers.tsx`**.
+- [ ] File created
+
+### C2. Wrap the app in the provider
+**File to edit:** `app/layout.tsx`. Import the provider and wrap `{children}` with it:
+```tsx
+import Providers from "./providers";
+// ...
+      <body className="min-h-full flex flex-col">
+        <Providers>{children}</Providers>
+      </body>
+```
+- [ ] `layout.tsx` wraps children in `<Providers>`
+
+**Why:** this makes the "who's logged in?" information available to every component in the
+app (see `session-provider.txt` for the full reason).
+
+### C3. Create the login page
+**👉 Follow [`login-page.txt`](./login-page.txt)** to create **`app/login/page.tsx`**.
+- [ ] File created
+
+### ✅ Test this Part
+- [ ] Visit <http://localhost:3000/login>. Log in with the **seeded admin**:
+      `admin@bookease.com` / `Password123!` (from your Phase 1 seed).
+- [ ] A **wrong** password shows "Invalid email or password".
+- [ ] A correct login sends you to the home page with no error.
+
+---
+
+# Part D — Protect pages & enforce roles 🛡️
+
+Finally, lock things down.
+
+### D1. Add the middleware
+**👉 Follow [`middleware.txt`](./middleware.txt)** to create **`middleware.ts`** at the
+**project root** (next to `package.json`).
+- [ ] `middleware.ts` created
+
+### D2. Make the dashboard admin-only
+**File to edit:** `app/dashboard/page.tsx`. Turn it into a server component that checks the
+session. Replace the top of the file so it looks like this (keep your existing dashboard
+JSX inside the `return`):
+```tsx
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { SignOutButton } from "@/components/sign-out-button";
+
+export default async function Dashboard() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) redirect("/login");            // not logged in → login
+  if (session.user?.role !== "ADMIN") redirect("/"); // logged in but not admin → home
+
+  return (
+    <div className="p-10">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <div className="flex items-center gap-4">
+          <span>Signed in as {session.user?.name}</span>
+          <SignOutButton />
+        </div>
+      </div>
+
+      {/* ...keep your existing dashboard boxes here... */}
+    </div>
+  );
+}
+```
+- [ ] Dashboard checks the session and redirects non-admins
+
+**Why on the page (not middleware):** middleware already ensured "logged in." The finer rule
+"must be an ADMIN" is clearest right here, using `getServerSession` to read the role on the
+server. (`getServerSession` uses the same `authOptions` — that's why we exported it.)
+
+### D3. Create the sign-out button
+Create **`components/sign-out-button.tsx`**:
+```tsx
+"use client";
+import { signOut } from "next-auth/react";
+
+export function SignOutButton() {
+  return (
+    <button
+      onClick={() => signOut({ callbackUrl: "/" })}
+      className="rounded bg-slate-800 px-4 py-2 text-white"
+    >
+      Sign out
+    </button>
+  );
+}
+```
+- [ ] File created
+
+**Why `"use client"`:** the button responds to a click (`onClick`) and calls `signOut`, both
+of which run in the browser — so it must be a client component.
+
+### ✅ Test this Part (the big end-to-end test)
+- [ ] **Logged out**, visit `/dashboard` → you're redirected to `/login`.
+- [ ] Log in as a **CUSTOMER** (make one at `/signup`) → visiting `/dashboard` sends you to
+      the home page (customers aren't admins).
+- [ ] Log in as the **ADMIN** (`admin@bookease.com` / `Password123!`) → `/dashboard` opens
+      and shows "Signed in as Ada Admin" with a **Sign out** button.
+- [ ] Click **Sign out** → you're logged out and back on the home page.
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+- [ ] Sign up creates a user with a **hashed** password
+- [ ] Login works; wrong passwords are rejected
+- [ ] `/book` and `/dashboard` redirect logged-out users to `/login`
+- [ ] `/dashboard` is **admin-only** (customers get redirected)
+- [ ] Sign out works
+- [ ] `npm run build` passes
+- [ ] Notes section filled in
+
+When all Parts pass, **stop and ask for a review.** Don't start Phase 3.
+
+---
+
+## Common mistakes to avoid
+- **Forgetting `NEXTAUTH_SECRET`.** Without it, login silently fails. Set it in Part A1.
+- **Missing `"use client"`** on `signup`, `login`, `providers`, or `sign-out-button` — you'll
+  get errors about hooks/events. Those four are client components.
+- **Wrong folder name for the NextAuth route.** It must be exactly
+  `app/api/auth/[...nextauth]/route.ts`, brackets and all.
+- **Editing a Part before the previous one's test passes.** Go in order A → B → C → D.
+- **Committing `.env`.** Check `git status` — it must not appear.
+
+---
+
+## Notes (fill this in as you go)
+> What clicked, what didn't, any errors + fixes. (Especially anything from `auth-concepts.md`
+> that finally made sense once you saw it working.)
+
+-
+-
+-
+
+---
+
+## Resources
+- Next.js — Authentication guide: `node_modules/next/dist/docs/01-app/02-guides/authentication.md`
+- NextAuth (v4): <https://next-auth.js.org/getting-started/introduction>
+- NextAuth — Credentials provider: <https://next-auth.js.org/providers/credentials>
+- NextAuth — `getServerSession`: <https://next-auth.js.org/configuration/nextjs#getserversession>
+- Next.js — Middleware: <https://nextjs.org/docs/app/building-your-application/routing/middleware>
