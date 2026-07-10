@@ -486,7 +486,7 @@ When everything's ticked, **stop and ask for a review.** Don't start Phase 2.
 
 
 
-# Phase 2 — Authentication & Roles
+<!-- # Phase 2 — Authentication & Roles
 
 **Status:** 🟡 In progress
 **Goal:** users can sign up, log in, and log out; `/book` and `/dashboard` are protected;
@@ -735,4 +735,131 @@ When all Parts pass, **stop and ask for a review.** Don't start Phase 3.
 - NextAuth (v4): <https://next-auth.js.org/getting-started/introduction>
 - NextAuth — Credentials provider: <https://next-auth.js.org/providers/credentials>
 - NextAuth — `getServerSession`: <https://next-auth.js.org/configuration/nextjs#getserversession>
-- Next.js — Middleware: <https://nextjs.org/docs/app/building-your-application/routing/middleware>
+- Next.js — Middleware: <https://nextjs.org/docs/app/building-your-application/routing/middleware> -->
+
+
+# Phase 3 — Customer Booking Flow
+
+**Status:** 🟡 In progress
+**Goal:** a logged-in customer can book an appointment at `/book`; it's validated, saved
+under their account, and confirmed.
+
+> 👋 **Beginner note:** 3 Parts (A–C). Do one, run its "✅ Test this Part", then continue.
+> Read [`booking-concepts.md`](./booking-concepts.md) first — it explains the two new tools.
+
+---
+
+## What you'll learn
+- Handling forms cleanly with **react-hook-form**
+- Describing validation rules with **zod** and sharing them between form and API
+- Why we validate on **both** the client and the server
+- Securing an API by taking the user from the **session**, not the request body
+
+---
+
+# Part A — Shared validation rules 📏
+
+### A1. Create the booking schema
+**👉 Follow [`appointment-schema.txt`](./appointment-schema.txt)** to create
+**`lib/validations/appointment.ts`** (make the `lib/validations/` folder first).
+- [ ] File created with `bookingSchema` and the `BookingInput` type
+
+### ✅ Test this Part
+- [ ] `npm run build` passes. (Nothing visible yet — this is a building block for B and C.)
+
+**Why first:** both the API (Part B) and the form (Part C) import this. Building the shared
+rule before the things that use it keeps them consistent.
+
+---
+
+# Part B — Make the API secure 🔒
+
+### B1. Rewrite the appointments API
+**👉 Follow [`appointments-api.txt`](./appointments-api.txt)** to **replace the contents** of
+**`app/api/appointments/route.ts`**.
+- [ ] The route now uses `getServerSession` for the user id
+- [ ] It validates the body with `bookingSchema` (`safeParse`)
+- [ ] It no longer reads `userId` from the request body
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+- [ ] (You'll fully test this in Part C, once the form can call it — the API now needs a
+      login cookie, so it's hard to call by hand.)
+
+**Why this matters:** this is the security heart of the phase. Before, the browser could
+claim to be any user. Now identity comes from the trusted session. Re-read
+[`booking-concepts.md`](./booking-concepts.md) §3 if the "why" isn't crystal clear — this
+task's Notes question is about it.
+
+---
+
+# Part C — The booking form 🗓️
+
+### C1. Rewrite the booking page
+**👉 Follow [`book-form.txt`](./book-form.txt)** to **replace the contents** of
+**`app/book/page.tsx`** with the real react-hook-form version.
+- [ ] File uses `useForm` + `zodResolver(bookingSchema)`
+- [ ] It POSTs to `/api/appointments` and shows a confirmation on success
+
+### ✅ Test this Part (the full end-to-end test)
+- [ ] Log in (seeded admin `admin@bookease.com` / `Password123!`, or a customer you made).
+- [ ] Go to `/book`. Submit with **no date** → "Please choose a date and time" appears
+      instantly (client validation).
+- [ ] Pick a date in the **past** → "The appointment must be in the future".
+- [ ] Pick a **future** date → "Booking confirmed! ✅".
+- [ ] Open `npx prisma studio` → the new **Appointment** exists, and its `userId` is **your**
+      user's id (proof it came from the session, not the form). 🎉
+- [ ] Bonus check: while **logged out**, visiting `/book` should still bounce you to `/login`
+      (Phase 2 middleware).
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+- [ ] `lib/validations/appointment.ts` exists and is used by both the API and the form
+- [ ] The API takes `userId` from the session and rejects logged-out requests (401)
+- [ ] The form validates on the client and creates a real appointment
+- [ ] A confirmation shows after booking
+- [ ] `npm run build` passes
+- [ ] The Notes task below is done
+
+When all Parts pass, **stop and ask for a review.** Don't start Phase 4.
+
+---
+
+## 📝 Notes task (required this phase — not optional!)
+In the **Notes** section below, write short answers (1–2 sentences each). This *is* a task:
+
+- [ ] **Q1.** In your own words, why does the API take the user id from the session instead
+      of from the form body? What could go wrong if it trusted the body?
+- [ ] **Q2.** We validate with the same zod schema in the form *and* the API. Why validate in
+      both places instead of just one?
+- [ ] **Q3.** One thing that surprised you or that you had to debug in this phase.
+
+> We've asked for Notes every phase — this time they're spelled out as questions so they're
+> quick and concrete. They genuinely help us see your understanding (and help *you* remember
+> it). Please don't skip. 🙏
+
+---
+
+## Common mistakes to avoid
+- **Missing `"use client"`** at the top of `app/book/page.tsx` (it uses hooks).
+- **Forgetting to create the `lib/validations/` folder** before the schema file.
+- **Testing while logged out** — booking requires a session; log in first.
+- **Editing Part C before Part A/B build cleanly** — go in order.
+
+---
+
+## Notes (write your answers here)
+**Q1 (session vs form for user id):**
+
+**Q2 (why validate in both places):**
+
+**Q3 (something you debugged / learned):**
+
+---
+
+## Resources
+- react-hook-form — Get started: <https://react-hook-form.com/get-started>
+- zod — docs: <https://zod.dev>
+- zod + react-hook-form: <https://react-hook-form.com/get-started#SchemaValidation>
+- NextAuth — `getServerSession`: <https://next-auth.js.org/configuration/nextjs#getserversession>
