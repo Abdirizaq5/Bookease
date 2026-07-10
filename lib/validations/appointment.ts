@@ -4,7 +4,7 @@ export const bookingSchema = z.object({
   date: z
     .string()
     .min(1, "Please choose a date and time")
-    .refine((value) => new Date(value) > new Date(),{
+    .refine((value) => new Date(value) > new Date(), {
         message: "The appointment must be in the future",
     }),
 
