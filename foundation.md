@@ -798,29 +798,29 @@ task's Notes question is about it.
 ### C1. Rewrite the booking page
 **👉 Follow [`book-form.txt`](./book-form.txt)** to **replace the contents** of
 **`app/book/page.tsx`** with the real react-hook-form version.
-- [ ] File uses `useForm` + `zodResolver(bookingSchema)`
-- [ ] It POSTs to `/api/appointments` and shows a confirmation on success
+- [x] File uses `useForm` + `zodResolver(bookingSchema)`
+- [x] It POSTs to `/api/appointments` and shows a confirmation on success
 
 ### ✅ Test this Part (the full end-to-end test)
-- [ ] Log in (seeded admin `admin@bookease.com` / `Password123!`, or a customer you made).
-- [ ] Go to `/book`. Submit with **no date** → "Please choose a date and time" appears
+- [x] Log in (seeded admin `admin@bookease.com` / `Password123!`, or a customer you made).
+- [x] Go to `/book`. Submit with **no date** → "Please choose a date and time" appears
       instantly (client validation).
-- [ ] Pick a date in the **past** → "The appointment must be in the future".
-- [ ] Pick a **future** date → "Booking confirmed! ✅".
-- [ ] Open `npx prisma studio` → the new **Appointment** exists, and its `userId` is **your**
+- [x] Pick a date in the **past** → "The appointment must be in the future".
+- [x] Pick a **future** date → "Booking confirmed! ✅".
+- [x] Open `npx prisma studio` → the new **Appointment** exists, and its `userId` is **your**
       user's id (proof it came from the session, not the form). 🎉
-- [ ] Bonus check: while **logged out**, visiting `/book` should still bounce you to `/login`
+- [x] Bonus check: while **logged out**, visiting `/book` should still bounce you to `/login`
       (Phase 2 middleware).
 
 ---
 
 ## ✅ Definition of done (what the reviewer will check)
-- [ ] `lib/validations/appointment.ts` exists and is used by both the API and the form
-- [ ] The API takes `userId` from the session and rejects logged-out requests (401)
-- [ ] The form validates on the client and creates a real appointment
-- [ ] A confirmation shows after booking
-- [ ] `npm run build` passes
-- [ ] The Notes task below is done
+- [x] `lib/validations/appointment.ts` exists and is used by both the API and the form
+- [x] The API takes `userId` from the session and rejects logged-out requests (401)
+- [x] The form validates on the client and creates a real appointment
+- [x] A confirmation shows after booking
+- [x] `npm run build` passes
+- [x] The Notes task below is done
 
 When all Parts pass, **stop and ask for a review.** Don't start Phase 4.
 
@@ -829,11 +829,11 @@ When all Parts pass, **stop and ask for a review.** Don't start Phase 4.
 ## 📝 Notes task (required this phase — not optional!)
 In the **Notes** section below, write short answers (1–2 sentences each). This *is* a task:
 
-- [ ] **Q1.** In your own words, why does the API take the user id from the session instead
+- [x] **Q1.** In your own words, why does the API take the user id from the session instead
       of from the form body? What could go wrong if it trusted the body?
-- [ ] **Q2.** We validate with the same zod schema in the form *and* the API. Why validate in
+- [x] **Q2.** We validate with the same zod schema in the form *and* the API. Why validate in
       both places instead of just one?
-- [ ] **Q3.** One thing that surprised you or that you had to debug in this phase.
+- [x] **Q3.** One thing that surprised you or that you had to debug in this phase.
 
 > We've asked for Notes every phase — this time they're spelled out as questions so they're
 > quick and concrete. They genuinely help us see your understanding (and help *you* remember
@@ -851,11 +851,11 @@ In the **Notes** section below, write short answers (1–2 sentences each). This
 
 ## Notes (write your answers here)
 **Q1 (session vs form for user id):**
-
+- The API uses the session because the browser cannot be trusted to say who the user is.  If the API accepted a userId from the form, someone could change it and create appointments for another user's account.
 **Q2 (why validate in both places):**
-
+- The form validation gives the user quick feedback before submitting. The API validation protects the database because requests can bypass the form and call the API directly.
 **Q3 (something you debugged / learned):**
-
+- I learned how React Hook Form connects with Zod through zodResolver and how the server can securely identify the logged-in user from the session.
 ---
 
 ## Resources
