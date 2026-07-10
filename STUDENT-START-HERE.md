@@ -64,3 +64,4 @@ Work **one Part at a time** and run its "✅ Test this Part" step before moving 
 ## ✅ When you're finished
 Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
 We'll review, then unlock **Phase 4 (Complete the Appointments API)**. Don't jump ahead. 🚀
+
