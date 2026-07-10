@@ -762,10 +762,10 @@ under their account, and confirmed.
 ### A1. Create the booking schema
 **👉 Follow [`appointment-schema.txt`](./appointment-schema.txt)** to create
 **`lib/validations/appointment.ts`** (make the `lib/validations/` folder first).
-- [ ] File created with `bookingSchema` and the `BookingInput` type
+- [x] File created with `bookingSchema` and the `BookingInput` type
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes. (Nothing visible yet — this is a building block for B and C.)
+- [x] `npm run build` passes. (Nothing visible yet — this is a building block for B and C.)
 
 **Why first:** both the API (Part B) and the form (Part C) import this. Building the shared
 rule before the things that use it keeps them consistent.
@@ -777,12 +777,12 @@ rule before the things that use it keeps them consistent.
 ### B1. Rewrite the appointments API
 **👉 Follow [`appointments-api.txt`](./appointments-api.txt)** to **replace the contents** of
 **`app/api/appointments/route.ts`**.
-- [ ] The route now uses `getServerSession` for the user id
-- [ ] It validates the body with `bookingSchema` (`safeParse`)
-- [ ] It no longer reads `userId` from the request body
+- [x] The route now uses `getServerSession` for the user id
+- [x] It validates the body with `bookingSchema` (`safeParse`)
+- [x] It no longer reads `userId` from the request body
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
+- [x] `npm run build` passes.
 - [ ] (You'll fully test this in Part C, once the form can call it — the API now needs a
       login cookie, so it's hard to call by hand.)
 
