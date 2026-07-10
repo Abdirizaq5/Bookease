@@ -783,7 +783,7 @@ rule before the things that use it keeps them consistent.
 
 ### ✅ Test this Part
 - [x] `npm run build` passes.
-- [ ] (You'll fully test this in Part C, once the form can call it — the API now needs a
+- [x] (You'll fully test this in Part C, once the form can call it — the API now needs a
       login cookie, so it's hard to call by hand.)
 
 **Why this matters:** this is the security heart of the phase. Before, the browser could
