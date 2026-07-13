@@ -1,4 +1,4 @@
-# Troubleshooting — Phase 3 (booking) blockers
+<!-- # Troubleshooting — Phase 3 (booking) blockers
 
 Each entry: **what you'll see → why → fix.** Work one Part at a time. Still stuck? Send the
 reviewer the exact step + the full error (terminal **and** browser console).
@@ -80,4 +80,5 @@ and the browser console.
 ## Reference shelf
 - react-hook-form: <https://react-hook-form.com>
 - zod: <https://zod.dev>
-- Next.js route handlers: <https://nextjs.org/docs/app/building-your-application/routing/route-handlers>
+- Next.js route handlers: <https://nextjs.org/docs/app/building-your-application/routing/route-handlers> -->
+

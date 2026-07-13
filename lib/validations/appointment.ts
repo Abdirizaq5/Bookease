@@ -14,4 +14,24 @@ export const bookingSchema = z.object({
     .optional(),
 });
 
+
+
 export type BookingInput = z.infer<typeof bookingSchema>;
+
+
+export const updateAppointmentSchema = z
+  .object({
+    status: z.enum(["CONFIRMED", "CANCELLED"]).optional(),
+    date: z
+      .string()
+      .refine((value) => new Date(value) > new Date(), {
+        message: "The new date must be in the future",
+      })
+      .optional(),
+  })
+  .refine((data) => data.status !== undefined || data.date !== undefined, {
+    message: "Provide a new status or a new date to update",
+  });
+
+
+export type UpdateAppointmentInput = z.infer<typeof updateAppointmentSchema>;

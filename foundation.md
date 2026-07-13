@@ -738,7 +738,7 @@ When all Parts pass, **stop and ask for a review.** Don't start Phase 3.
 - Next.js — Middleware: <https://nextjs.org/docs/app/building-your-application/routing/middleware> -->
 
 
-# Phase 3 — Customer Booking Flow
+<!-- # Phase 3 — Customer Booking Flow
 
 **Status:** 🟡 In progress
 **Goal:** a logged-in customer can book an appointment at `/book`; it's validated, saved
@@ -862,4 +862,123 @@ In the **Notes** section below, write short answers (1–2 sentences each). This
 - react-hook-form — Get started: <https://react-hook-form.com/get-started>
 - zod — docs: <https://zod.dev>
 - zod + react-hook-form: <https://react-hook-form.com/get-started#SchemaValidation>
-- NextAuth — `getServerSession`: <https://next-auth.js.org/configuration/nextjs#getserversession>
+- NextAuth — `getServerSession`: <https://next-auth.js.org/configuration/nextjs#getserversession> -->
+
+
+
+
+# Phase 4 — Complete the Appointments API
+
+**Status:** 🟡 In progress
+**Goal:** add GET (list, scoped by role) and PATCH (confirm/cancel/reschedule, with
+permission checks) to the appointments API.
+
+> 👋 **Beginner note:** 3 Parts (A–C). Backend only — you'll test with the browser and the
+> DevTools console. Read [`authorization-concepts.md`](./authorization-concepts.md) first;
+> keep its **permission table** open while you write Part C.
+
+---
+
+## What you'll learn
+- Scoping database queries by the logged-in user (**data isolation**)
+- Writing an **update** validation schema (everything optional, but at least one field)
+- Enforcing **permission rules** (owner vs admin; who can confirm vs cancel)
+- Using the right **status codes**: 401, 403, 404, 400
+
+---
+
+# Part A — Rules for updates 📏
+
+### A1. Add the update schema
+**👉 Follow [`update-schema.txt`](./update-schema.txt)** to **add** `updateAppointmentSchema`
+to your existing **`lib/validations/appointment.ts`** (keep `bookingSchema`).
+- [ ] `updateAppointmentSchema` and `UpdateAppointmentInput` added
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+
+---
+
+# Part B — List appointments (GET) 📋
+
+### B1. Add the GET handler
+**👉 Follow [`list-appointments.txt`](./list-appointments.txt)** to add a `GET` function to
+**`app/api/appointments/route.ts`** (alongside the existing `POST`).
+- [ ] GET returns only the user's own appointments for a customer, all for an admin
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+- [ ] Log in as the **admin** (`admin@bookease.com` / `Password123!`), visit
+      <http://localhost:3000/api/appointments> → you see **all** appointments as JSON.
+- [ ] Log in as a **customer** (make one at `/signup`, book something at `/book`), visit the
+      same URL → you see **only your own**. That difference is data isolation working. 🎉
+
+---
+
+# Part C — Confirm / cancel / reschedule (PATCH) 🔧
+
+### C1. Create the dynamic route
+**👉 Follow [`update-appointment.txt`](./update-appointment.txt)** to create
+**`app/api/appointments/[id]/route.ts`** (the folder name includes the square brackets).
+- [ ] File created with a `PATCH` handler
+- [ ] It checks: logged in (401) → exists (404) → allowed (403) → valid (400) → action
+      allowed (403) → update
+
+### ✅ Test this Part (use the DevTools console — see `update-appointment.txt`)
+Get an appointment id from Prisma Studio or the GET list, then in the browser console:
+- [ ] As **admin**, PATCH `{ "status": "CONFIRMED" }` → success; Studio shows CONFIRMED.
+- [ ] As a **customer** on your **own** appointment, PATCH `{ "status": "CANCELLED" }` → success.
+- [ ] As a **customer** trying `{ "status": "CONFIRMED" }` → **403** "Only an admin can confirm".
+- [ ] As a customer on **someone else's** appointment → **403**.
+- [ ] A made-up id → **404**.
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+- [ ] `updateAppointmentSchema` exists and is used by the PATCH route
+- [ ] GET scopes results by role (customer = own, admin = all)
+- [ ] PATCH enforces ownership and the confirm-is-admin-only rule
+- [ ] Correct status codes: 401 / 403 / 404 / 400 used appropriately
+- [ ] `npm run build` passes
+- [ ] The Notes task below is done
+
+When all Parts pass, **stop and ask for a review.** Don't start Phase 5.
+
+---
+
+## 📝 Notes task (required)
+Answer briefly in the Notes section (1–2 sentences each). This is a task with checkboxes:
+
+- [ ] **Q1.** How does your GET endpoint make sure a customer can't see other people's
+      appointments? (Point to the specific line/idea.)
+- [ ] **Q2.** What's the difference between returning **401**, **403**, and **404**? Give an
+      example of when each happens in your PATCH route.
+- [ ] **Q3.** A customer and an admin can both "change" an appointment — what can the admin
+      do that the customer can't, and where in your code is that enforced?
+
+---
+
+## Common mistakes to avoid
+- **Filtering after fetching instead of in the query.** Put the user filter in the Prisma
+  `where` — don't fetch everything then filter in code (that can leak data and is slow).
+- **Forgetting to `await params`.** In this Next.js, `params` is a Promise (Part C).
+- **Wrong folder name** — it must be `app/api/appointments/[id]/route.ts`, brackets included.
+- **Confusing 401 and 403** — 401 = not logged in; 403 = logged in but not allowed.
+
+---
+
+## Notes (write your answers here)
+**Q1 (how customers are limited to their own data):**
+
+**Q2 (401 vs 403 vs 404, with examples):**
+
+**Q3 (what admin can do that customer can't, and where it's enforced):**
+
+---
+
+## Resources
+- Next.js — Route Handlers: <https://nextjs.org/docs/app/building-your-application/routing/route-handlers>
+- Next.js — Dynamic routes & `params`: <https://nextjs.org/docs/app/api-reference/file-conventions/route>
+- Prisma — filtering (`where`): <https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting>
+- Prisma — update: <https://www.prisma.io/docs/orm/prisma-client/queries/crud#update>
+- MDN — HTTP status codes: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Status>
