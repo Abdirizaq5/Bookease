@@ -60,6 +60,77 @@ export async function POST(request: Request): Promise<Response> {
 }
 
 
+export async function GET(): Promise<Response> {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) {
+      return Response.json(
+        {
+          success: false,
+          error: "You must be logged in",
+        },
+        { status: 401 }
+      );
+    }
+
+    const isAdmin = session.user.role === "ADMIN";
+
+    const appointments = await prisma.appointment.findMany({
+      where: isAdmin ? {} : { userId: session.user.id },
+      orderBy: {
+        appointmentDate: "asc",
+      },
+      include: isAdmin
+        ? {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          }
+        : undefined,
+    });
+
+    return Response.json(
+      {
+        success: true,
+        data: appointments,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error listing appointments:", error);
+
+    return Response.json(
+      {
+        success: false,
+        error: "Internal server error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // import { prisma } from "@/lib/prisma";
