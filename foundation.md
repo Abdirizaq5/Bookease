@@ -892,10 +892,10 @@ permission checks) to the appointments API.
 ### A1. Add the update schema
 **👉 Follow [`update-schema.txt`](./update-schema.txt)** to **add** `updateAppointmentSchema`
 to your existing **`lib/validations/appointment.ts`** (keep `bookingSchema`).
-- [ ] `updateAppointmentSchema` and `UpdateAppointmentInput` added
+- [x] `updateAppointmentSchema` and `UpdateAppointmentInput` added
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
+- [x] `npm run build` passes.
 
 ---
 
@@ -904,13 +904,13 @@ to your existing **`lib/validations/appointment.ts`** (keep `bookingSchema`).
 ### B1. Add the GET handler
 **👉 Follow [`list-appointments.txt`](./list-appointments.txt)** to add a `GET` function to
 **`app/api/appointments/route.ts`** (alongside the existing `POST`).
-- [ ] GET returns only the user's own appointments for a customer, all for an admin
+- [x] GET returns only the user's own appointments for a customer, all for an admin
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
-- [ ] Log in as the **admin** (`admin@bookease.com` / `Password123!`), visit
+- [x] `npm run build` passes.
+- [x] Log in as the **admin** (`admin@bookease.com` / `Password123!`), visit
       <http://localhost:3000/api/appointments> → you see **all** appointments as JSON.
-- [ ] Log in as a **customer** (make one at `/signup`, book something at `/book`), visit the
+- [x] Log in as a **customer** (make one at `/signup`, book something at `/book`), visit the
       same URL → you see **only your own**. That difference is data isolation working. 🎉
 
 ---
@@ -920,27 +920,27 @@ to your existing **`lib/validations/appointment.ts`** (keep `bookingSchema`).
 ### C1. Create the dynamic route
 **👉 Follow [`update-appointment.txt`](./update-appointment.txt)** to create
 **`app/api/appointments/[id]/route.ts`** (the folder name includes the square brackets).
-- [ ] File created with a `PATCH` handler
-- [ ] It checks: logged in (401) → exists (404) → allowed (403) → valid (400) → action
+- [x] File created with a `PATCH` handler
+- [x] It checks: logged in (401) → exists (404) → allowed (403) → valid (400) → action
       allowed (403) → update
 
 ### ✅ Test this Part (use the DevTools console — see `update-appointment.txt`)
 Get an appointment id from Prisma Studio or the GET list, then in the browser console:
-- [ ] As **admin**, PATCH `{ "status": "CONFIRMED" }` → success; Studio shows CONFIRMED.
-- [ ] As a **customer** on your **own** appointment, PATCH `{ "status": "CANCELLED" }` → success.
-- [ ] As a **customer** trying `{ "status": "CONFIRMED" }` → **403** "Only an admin can confirm".
-- [ ] As a customer on **someone else's** appointment → **403**.
-- [ ] A made-up id → **404**.
+- [x] As **admin**, PATCH `{ "status": "CONFIRMED" }` → success; Studio shows CONFIRMED.
+- [x] As a **customer** on your **own** appointment, PATCH `{ "status": "CANCELLED" }` → success.
+- [x] As a **customer** trying `{ "status": "CONFIRMED" }` → **403** "Only an admin can confirm".
+- [x] As a customer on **someone else's** appointment → **403**.
+- [x] A made-up id → **404**.
 
 ---
 
 ## ✅ Definition of done (what the reviewer will check)
-- [ ] `updateAppointmentSchema` exists and is used by the PATCH route
-- [ ] GET scopes results by role (customer = own, admin = all)
-- [ ] PATCH enforces ownership and the confirm-is-admin-only rule
-- [ ] Correct status codes: 401 / 403 / 404 / 400 used appropriately
-- [ ] `npm run build` passes
-- [ ] The Notes task below is done
+- [x] `updateAppointmentSchema` exists and is used by the PATCH route
+- [x] GET scopes results by role (customer = own, admin = all)
+- [x] PATCH enforces ownership and the confirm-is-admin-only rule
+- [x] Correct status codes: 401 / 403 / 404 / 400 used appropriately
+- [x] `npm run build` passes
+- [x] The Notes task below is done
 
 When all Parts pass, **stop and ask for a review.** Don't start Phase 5.
 
@@ -949,11 +949,11 @@ When all Parts pass, **stop and ask for a review.** Don't start Phase 5.
 ## 📝 Notes task (required)
 Answer briefly in the Notes section (1–2 sentences each). This is a task with checkboxes:
 
-- [ ] **Q1.** How does your GET endpoint make sure a customer can't see other people's
+- [x] **Q1.** How does your GET endpoint make sure a customer can't see other people's
       appointments? (Point to the specific line/idea.)
-- [ ] **Q2.** What's the difference between returning **401**, **403**, and **404**? Give an
+- [x] **Q2.** What's the difference between returning **401**, **403**, and **404**? Give an
       example of when each happens in your PATCH route.
-- [ ] **Q3.** A customer and an admin can both "change" an appointment — what can the admin
+- [x] **Q3.** A customer and an admin can both "change" an appointment — what can the admin
       do that the customer can't, and where in your code is that enforced?
 
 ---
@@ -969,11 +969,13 @@ Answer briefly in the Notes section (1–2 sentences each). This is a task with 
 
 ## Notes (write your answers here)
 **Q1 (how customers are limited to their own data):**
-
+- The GET query uses where: isAdmin ? {} : { userId: session.user.id }, so customers only see their own appointments.
 **Q2 (401 vs 403 vs 404, with examples):**
-
+- 401: User is not logged in.
+- 403: User is logged in but isn't allowed to perform the action (for example, confirming an appointment as a customer).
+- 404: The appointment ID doesn't exist.
 **Q3 (what admin can do that customer can't, and where it's enforced):**
-
+- An admin can confirm appointments, while customers cannot. This is enforced by checking !isAdmin && parsed.data.status === "CONFIRMED" in the PATCH route.
 ---
 
 ## Resources
