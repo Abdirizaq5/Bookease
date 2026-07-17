@@ -1017,7 +1017,7 @@ status badges, and cancel one.
 **👉 Follow [`appointments-page.txt`](./appointments-page.txt)** to create
 **`app/appointments/page.tsx`** (a server component that lists the user's appointments in a
 table). *(The Cancel button import will error until Part B — that's expected.)*
-- [ ] `app/appointments/page.tsx` created
+- [x] `app/appointments/page.tsx` created
 
 ### A3. Protect the new route
 **File to edit:** `proxy.ts`. Add `/appointments` to the `matcher` so logged-out users are
@@ -1030,9 +1030,9 @@ export const config = {
 - [ ] `/appointments` added to the matcher
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes (once Part B's Cancel button exists — do A then B, then test).
-- [ ] Logged in as a customer with bookings, `/appointments` shows a table with status badges.
-- [ ] Logged **out**, visiting `/appointments` redirects to `/login`.
+- [x] `npm run build` passes (once Part B's Cancel button exists — do A then B, then test).
+- [x] Logged in as a customer with bookings, `/appointments` shows a table with status badges.
+- [x] Logged **out**, visiting `/appointments` redirects to `/login`.
 
 ---
 
@@ -1042,14 +1042,14 @@ export const config = {
 **👉 Follow [`cancel-button.txt`](./cancel-button.txt)** to create
 **`components/ui/cancel-button.tsx`** (a client component that PATCHes the appointment to
 CANCELLED and refreshes).
-- [ ] `CancelButton` created and imported by the page (the Part A import now resolves)
+- [x] `CancelButton` created and imported by the page (the Part A import now resolves)
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
-- [ ] On `/appointments`, click **Cancel** on a PENDING/CONFIRMED appointment → confirm the
+- [x] `npm run build` passes.
+- [x] On `/appointments`, click **Cancel** on a PENDING/CONFIRMED appointment → confirm the
       prompt → the row's status changes to **CANCELLED** without a full page reload.
-- [ ] Check Prisma Studio → that appointment's status really is `CANCELLED`.
-- [ ] The **Cancel** button no longer appears on cancelled appointments.
+- [x] Check Prisma Studio → that appointment's status really is `CANCELLED`.
+- [x] The **Cancel** button no longer appears on cancelled appointments.
 
 ---
 
@@ -1063,22 +1063,22 @@ after logging in:
 router.push("/appointments");
 router.refresh();
 ```
-- [ ] Login now sends users to `/appointments`
+- [x] Login now sends users to `/appointments`
 
 ### ✅ Test this Part
-- [ ] Log out, then log back in → you land on `/appointments`.
-- [ ] From there, "Book new" takes you to `/book`; booking then appears in the list.
+- [x] Log out, then log back in → you land on `/appointments`.
+- [x] From there, "Book new" takes you to `/book`; booking then appears in the list.
 
 ---
 
 ## ✅ Definition of done (what the reviewer will check)
-- [ ] `/appointments` lists the logged-in customer's own appointments in a table
-- [ ] Status badges are colored by status
-- [ ] Cancel works and updates the list via `router.refresh()`
-- [ ] `/appointments` is protected (logged-out → `/login`)
-- [ ] Empty state shows when there are no appointments
-- [ ] `npm run build` passes
-- [ ] The Notes task below is done
+- [x] `/appointments` lists the logged-in customer's own appointments in a table
+- [x] Status badges are colored by status
+- [x] Cancel works and updates the list via `router.refresh()`
+- [x] `/appointments` is protected (logged-out → `/login`)
+- [x] Empty state shows when there are no appointments
+- [x] `npm run build` passes
+- [x] The Notes task below is done
 
 When all Parts pass, **stop and ask for a review.** Don't start Phase 6.
 
@@ -1087,10 +1087,10 @@ When all Parts pass, **stop and ask for a review.** Don't start Phase 6.
 ## 📝 Notes task (required)
 Answer briefly in the Notes section (1–2 sentences each):
 
-- [ ] **Q1.** Why is the appointments page a **server** component, but the Cancel button a
+- [x] **Q1.** Why is the appointments page a **server** component, but the Cancel button a
       **client** component?
-- [ ] **Q2.** What does `router.refresh()` do, and why do we call it after cancelling?
-- [ ] **Q3.** The page queries the database directly instead of calling your own
+- [x] **Q2.** What does `router.refresh()` do, and why do we call it after cancelling?
+- [x] **Q3.** The page queries the database directly instead of calling your own
       `GET /api/appointments`. Why is that fine (even better) here?
 
 ---
@@ -1107,10 +1107,11 @@ Answer briefly in the Notes section (1–2 sentences each):
 
 ## Notes (write your answers here)
 **Q1 (server page vs client button):**
-
+- The page is a server component because it fetches the session and database data. The Cancel button is a client component because it handles clicks and sends the PATCH request.
 **Q2 (what router.refresh does):**
-
+- Router.refresh reloads the server component with fresh data, so the updated appointment status appears without a full page refresh.
 **Q3 (why query the DB directly here):**
+- Because the page already runs on the server, it can access Prisma directly. Querying the database avoids an unnecessary request to the application's own API, making it more efficient.
 
 ---
 
