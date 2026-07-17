@@ -1027,7 +1027,7 @@ export const config = {
   matcher: ["/book/:path*", "/dashboard/:path*", "/appointments/:path*"],
 };
 ```
-- [ ] `/appointments` added to the matcher
+- [x] `/appointments` added to the matcher
 
 ### ✅ Test this Part
 - [x] `npm run build` passes (once Part B's Cancel button exists — do A then B, then test).
