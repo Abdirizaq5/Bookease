@@ -67,7 +67,7 @@ We'll review, then unlock **Phase 4 (Complete the Appointments API)**. Don't jum
  -->
 
 
-# 👋 START HERE — Phase 4: Complete the Appointments API
+<!-- # 👋 START HERE — Phase 4: Complete the Appointments API
 
 So far you can *create* an appointment. But nobody can **see** their appointments yet, and
 an admin can't **confirm** or **cancel** them. Phase 4 finishes the API so the data can be
@@ -136,4 +136,73 @@ Work one Part at a time and run its "✅ Test this Part" step before moving on.
 
 ## ✅ When you're finished
 Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
-We'll review, then unlock **Phase 5 (Customer Dashboard)**. Don't jump ahead. 🚀
+We'll review, then unlock **Phase 5 (Customer Dashboard)**. Don't jump ahead. 🚀 -->
+
+
+
+
+
+# 👋 START HERE — Phase 5: Customer Dashboard
+
+Time to *show* the data! In Phase 4 you built the API that lists and cancels appointments.
+Now you'll build the page a **customer** sees: **"My Appointments"** — a table of their own
+bookings, with status badges and a **Cancel** button.
+
+---
+
+## 🎯 What you'll achieve in Phase 5
+
+- ✅ A **My Appointments** page at `/appointments` (protected — logged-in customers only)
+- ✅ Their appointments shown in a clean **table** (date, status, notes)
+- ✅ Colored **status badges** (PENDING / CONFIRMED / CANCELLED)
+- ✅ A working **Cancel** button that updates the list instantly
+- ✅ A friendly **empty state** when they have no appointments
+
+> 🧠 This phase teaches an important Next.js idea: **server components fetch data**, and
+> **client components handle clicks**. You'll use both and see how they work together.
+
+---
+
+## 🗺️ The path to follow (in order)
+
+```
+1. Read  STUDENT-START-HERE.md    ← you are here
+2. Read  readme.md                ← how this phase + its guide files work
+3. Read  dashboard-concepts.md    ← the ideas (server vs client, refresh, badges)
+4. Open  foundation.md            ← THE task list, in 3 parts:
+         Part A — the list        (the page + status badges, protected)
+         Part B — cancel          (the client Cancel button)
+         Part C — make it reachable (land here after login)
+5. Stuck?  → troubleshooting.md
+6. Done?   → tell the reviewer. STOP — don't start Phase 6.
+```
+
+Work one Part at a time and run its "✅ Test this Part" step before moving on.
+
+---
+
+## 📁 What each file is for
+
+| File | What it's for | When |
+|---|---|---|
+| `STUDENT-START-HERE.md` | This overview | First |
+| `readme.md` | How the phase + guide files work | Second |
+| `dashboard-concepts.md` | The ideas behind the code | Third |
+| `foundation.md` | The task list (Parts A–C) | Your main document |
+| `troubleshooting.md` | Fixes for common blockers | When stuck |
+| `appointments-page.txt` | Explained code → `app/appointments/page.tsx` | Part A |
+| `status-badge.txt` | Explained code → `components/ui/status-badge.tsx` | Part A |
+| `cancel-button.txt` | Explained code → `components/ui/cancel-button.tsx` | Part B |
+
+---
+
+## 🚧 Before you start
+- Phase 4 must work (the GET and PATCH endpoints). This phase *uses* them.
+- Note: `/dashboard` is the **admin** page (Phase 2). The **customer** page is a new,
+  separate route: **`/appointments`**.
+
+---
+
+## ✅ When you're finished
+Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
+We'll review, then unlock **Phase 6 (Admin Dashboard)** — the last big feature. 🚀

@@ -867,7 +867,7 @@ In the **Notes** section below, write short answers (1–2 sentences each). This
 
 
 
-# Phase 4 — Complete the Appointments API
+<!-- # Phase 4 — Complete the Appointments API
 
 **Status:** 🟡 In progress
 **Goal:** add GET (list, scoped by role) and PATCH (confirm/cancel/reschedule, with
@@ -983,4 +983,139 @@ Answer briefly in the Notes section (1–2 sentences each). This is a task with 
 - Next.js — Dynamic routes & `params`: <https://nextjs.org/docs/app/api-reference/file-conventions/route>
 - Prisma — filtering (`where`): <https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting>
 - Prisma — update: <https://www.prisma.io/docs/orm/prisma-client/queries/crud#update>
-- MDN — HTTP status codes: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Status>
+- MDN — HTTP status codes: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Status> -->
+
+
+
+# Phase 5 — Customer Dashboard
+
+**Status:** 🟡 In progress
+**Goal:** a logged-in customer can see their own appointments at `/appointments`, with
+status badges, and cancel one.
+
+> 👋 **Beginner note:** 3 Parts (A–C). Read [`dashboard-concepts.md`](./dashboard-concepts.md)
+> first — the "server component vs client component" idea is the heart of this phase.
+
+---
+
+## What you'll learn
+- Fetching data in a **server component** (query the DB directly)
+- Building interactivity in a **client component** (the Cancel button)
+- Refreshing server-rendered content with `router.refresh()`
+- Reusing a shared UI component (the `table`) and small presentational pieces (badges)
+
+---
+
+# Part A — The list 📋
+
+### A1. Create the status badge
+**👉 Follow [`status-badge.txt`](./status-badge.txt)** to create
+**`components/ui/status-badge.tsx`**.
+- [x] `StatusBadge` component created
+
+### A2. Create the dashboard page
+**👉 Follow [`appointments-page.txt`](./appointments-page.txt)** to create
+**`app/appointments/page.tsx`** (a server component that lists the user's appointments in a
+table). *(The Cancel button import will error until Part B — that's expected.)*
+- [ ] `app/appointments/page.tsx` created
+
+### A3. Protect the new route
+**File to edit:** `proxy.ts`. Add `/appointments` to the `matcher` so logged-out users are
+redirected to `/login`:
+```ts
+export const config = {
+  matcher: ["/book/:path*", "/dashboard/:path*", "/appointments/:path*"],
+};
+```
+- [ ] `/appointments` added to the matcher
+
+### ✅ Test this Part
+- [ ] `npm run build` passes (once Part B's Cancel button exists — do A then B, then test).
+- [ ] Logged in as a customer with bookings, `/appointments` shows a table with status badges.
+- [ ] Logged **out**, visiting `/appointments` redirects to `/login`.
+
+---
+
+# Part B — The Cancel button 🗑️
+
+### B1. Create the Cancel button
+**👉 Follow [`cancel-button.txt`](./cancel-button.txt)** to create
+**`components/ui/cancel-button.tsx`** (a client component that PATCHes the appointment to
+CANCELLED and refreshes).
+- [ ] `CancelButton` created and imported by the page (the Part A import now resolves)
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+- [ ] On `/appointments`, click **Cancel** on a PENDING/CONFIRMED appointment → confirm the
+      prompt → the row's status changes to **CANCELLED** without a full page reload.
+- [ ] Check Prisma Studio → that appointment's status really is `CANCELLED`.
+- [ ] The **Cancel** button no longer appears on cancelled appointments.
+
+---
+
+# Part C — Make it reachable 🚪
+
+### C1. Land on the dashboard after login
+**File to edit:** `app/login/page.tsx`. Change the redirect so users go to their dashboard
+after logging in:
+```tsx
+// was: router.push("/");
+router.push("/appointments");
+router.refresh();
+```
+- [ ] Login now sends users to `/appointments`
+
+### ✅ Test this Part
+- [ ] Log out, then log back in → you land on `/appointments`.
+- [ ] From there, "Book new" takes you to `/book`; booking then appears in the list.
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+- [ ] `/appointments` lists the logged-in customer's own appointments in a table
+- [ ] Status badges are colored by status
+- [ ] Cancel works and updates the list via `router.refresh()`
+- [ ] `/appointments` is protected (logged-out → `/login`)
+- [ ] Empty state shows when there are no appointments
+- [ ] `npm run build` passes
+- [ ] The Notes task below is done
+
+When all Parts pass, **stop and ask for a review.** Don't start Phase 6.
+
+---
+
+## 📝 Notes task (required)
+Answer briefly in the Notes section (1–2 sentences each):
+
+- [ ] **Q1.** Why is the appointments page a **server** component, but the Cancel button a
+      **client** component?
+- [ ] **Q2.** What does `router.refresh()` do, and why do we call it after cancelling?
+- [ ] **Q3.** The page queries the database directly instead of calling your own
+      `GET /api/appointments`. Why is that fine (even better) here?
+
+---
+
+## Common mistakes to avoid
+- **Putting `"use client"` on the page.** The page is a *server* component — only the Cancel
+  button is a client component.
+- **Forgetting to add `/appointments` to the proxy matcher** — the page won't be protected.
+- **`key` missing on table rows** — React needs `key={appt.id}` on each mapped `<TableRow>`.
+- **Expecting the list to update without `router.refresh()`** — the server component won't
+  re-run on its own.
+
+---
+
+## Notes (write your answers here)
+**Q1 (server page vs client button):**
+
+**Q2 (what router.refresh does):**
+
+**Q3 (why query the DB directly here):**
+
+---
+
+## Resources
+- Next.js — Server & Client Components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>
+- Next.js — `useRouter().refresh()`: <https://nextjs.org/docs/app/api-reference/functions/use-router>
+- Prisma — findMany / filtering: <https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting>
+- shadcn/ui — Table: <https://ui.shadcn.com/docs/components/table>

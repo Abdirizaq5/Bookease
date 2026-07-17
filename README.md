@@ -39,7 +39,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 
-# Phase 3 — Customer Booking Flow (how this phase works)
+<!-- # Phase 3 — Customer Booking Flow (how this phase works)
 
 > 🚦 **New here? Open [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) first**, then read
 > [`booking-concepts.md`](./booking-concepts.md). This `readme.md` explains *how* the phase
@@ -104,4 +104,67 @@ the file they name. Don't keep the long teaching comments in your real files.
 
 ## When you're done
 Finish `foundation.md`, complete the Notes task, then tell the reviewer. **Don't start
-Phase 4** until we've reviewed Phase 3.
+Phase 4** until we've reviewed Phase 3. -->
+
+
+# Phase 5 — Customer Dashboard (how this phase works)
+
+> 🚦 **New here? Open [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) first**, then read
+> [`dashboard-concepts.md`](./dashboard-concepts.md). This `readme.md` explains *how* the
+> phase and its files work.
+
+**Goal:** build the customer's "My Appointments" page — a table of their own bookings, with
+status badges and a cancel button.
+
+---
+
+## The big idea of this phase: server components fetch, client components click
+
+- The **page** (`/appointments`) is a **server component**. It runs on the server, reads the
+  logged-in user from the session, queries the database directly, and sends finished HTML.
+  Fast and secure — no loading spinner, no exposed API call.
+- The **Cancel button** is a **client component**. Clicking runs in the browser, calls your
+  Phase 4 PATCH endpoint, then asks the page to refresh with new data.
+
+You'll see exactly how these two cooperate. This is the core pattern of modern Next.js.
+
+---
+
+## Read in this order
+1. [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) — summary + path
+2. This file (`readme.md`) — how it works
+3. [`dashboard-concepts.md`](./dashboard-concepts.md) — the ideas (no typing)
+4. [`foundation.md`](./foundation.md) — the tasks (Parts A–C)
+5. [`troubleshooting.md`](./troubleshooting.md) — when stuck
+
+---
+
+## Guide-file style (same as before)
+`.txt` files are **explained code**. Read them, then **type the real code yourself**.
+
+| Guide file | Real file it maps to | Part |
+|---|---|---|
+| [`appointments-page.txt`](./appointments-page.txt) | `app/appointments/page.tsx` (create) | A |
+| [`status-badge.txt`](./status-badge.txt) | `components/ui/status-badge.tsx` (create) | A |
+| [`cancel-button.txt`](./cancel-button.txt) | `components/ui/cancel-button.tsx` (create) | B |
+
+---
+
+## Files you'll create or edit
+
+| File | Create/edit | Part |
+|---|---|---|
+| `components/ui/status-badge.tsx` | create | A |
+| `app/appointments/page.tsx` | create | A |
+| `proxy.ts` | edit (protect `/appointments`) | A |
+| `components/ui/cancel-button.tsx` | create | B |
+| `app/login/page.tsx` | edit (land on `/appointments`) | C |
+
+> We reuse the shadcn **`table`** component that's already in `components/ui/table.tsx`.
+> No deletions this phase.
+
+---
+
+## When you're done
+Finish `foundation.md`, complete the Notes task, then tell the reviewer. **Don't start
+Phase 6** until we've reviewed Phase 5.
