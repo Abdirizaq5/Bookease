@@ -142,7 +142,7 @@ We'll review, then unlock **Phase 5 (Customer Dashboard)**. Don't jump ahead. �
 
 
 
-# 👋 START HERE — Phase 5: Customer Dashboard
+<!-- # 👋 START HERE — Phase 5: Customer Dashboard
 
 Time to *show* the data! In Phase 4 you built the API that lists and cancels appointments.
 Now you'll build the page a **customer** sees: **"My Appointments"** — a table of their own
@@ -205,4 +205,67 @@ Work one Part at a time and run its "✅ Test this Part" step before moving on.
 
 ## ✅ When you're finished
 Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
-We'll review, then unlock **Phase 6 (Admin Dashboard)** — the last big feature. 🚀
+We'll review, then unlock **Phase 6 (Admin Dashboard)** — the last big feature. 🚀 -->
+
+# 👋 START HERE — Phase 6: Admin Dashboard
+
+The last big feature! You've built the customer side; now build the **admin** side. The
+admin opens `/dashboard` and sees **every** appointment (with the customer's name), some
+quick **stats**, and can **Confirm** or **Cancel** each one.
+
+The great news: you already have all the pieces. This phase is mostly **assembling things
+you've built** — the admin guard (Phase 2), the PATCH endpoint (Phase 4), the status badge
+and table (Phase 5). That's what good architecture feels like.
+
+---
+
+## 🎯 What you'll achieve in Phase 6
+
+- ✅ Replace the placeholder boxes on `/dashboard` with **real stats** (totals by status,
+  customer count)
+- ✅ A **management table** of all appointments, showing which customer each belongs to
+- ✅ **Confirm** and **Cancel** actions for the admin (reusing your Phase 4 PATCH endpoint)
+- ✅ A dashboard that updates instantly after each action
+
+---
+
+## 🗺️ The path to follow (in order)
+
+```
+1. Read  STUDENT-START-HERE.md   ← you are here
+2. Read  readme.md               ← how this phase + its guide files work
+3. Read  admin-concepts.md       ← the ideas (reuse, server-side stats, defense in depth)
+4. Open  foundation.md           ← THE task list, in 2 parts:
+         Part A — admin actions   (a Confirm/Cancel client component)
+         Part B — the dashboard   (stats + management table)
+5. Stuck?  → troubleshooting.md
+6. Done?   → tell the reviewer. STOP — Phase 7 (Polish & Deploy) is the finish line.
+```
+
+---
+
+## 📁 What each file is for
+
+| File | What it's for | When |
+|---|---|---|
+| `STUDENT-START-HERE.md` | This overview | First |
+| `readme.md` | How the phase + guide files work | Second |
+| `admin-concepts.md` | The ideas behind the code | Third |
+| `foundation.md` | The task list (Parts A–B) | Your main document |
+| `troubleshooting.md` | Fixes for common blockers | When stuck |
+| `admin-actions.txt` | Explained code → `components/ui/admin-actions.tsx` | Part A |
+| `dashboard-page.txt` | Explained code → `app/dashboard/page.tsx` (rewrite) | Part B |
+
+---
+
+## 🚧 Before you start
+- Phases 4 and 5 must work (the PATCH endpoint, the `StatusBadge`, the table).
+- You'll test as the **admin** (`admin@bookease.com` / `Password123!`). Make sure some
+  customers have booked appointments so there's data to manage.
+- (Carryover: if you haven't filled the Phase 5 Notes, please do — it's quick.)
+
+---
+
+## ✅ When you're finished
+Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
+After Phase 6, only **Phase 7 (Polish & Deploy)** remains. 🚀

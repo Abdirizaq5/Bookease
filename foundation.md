@@ -987,7 +987,7 @@ Answer briefly in the Notes section (1–2 sentences each). This is a task with 
 
 
 
-# Phase 5 — Customer Dashboard
+<!-- # Phase 5 — Customer Dashboard
 
 **Status:** 🟡 In progress
 **Goal:** a logged-in customer can see their own appointments at `/appointments`, with
@@ -1119,4 +1119,109 @@ Answer briefly in the Notes section (1–2 sentences each):
 - Next.js — Server & Client Components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>
 - Next.js — `useRouter().refresh()`: <https://nextjs.org/docs/app/api-reference/functions/use-router>
 - Prisma — findMany / filtering: <https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting>
-- shadcn/ui — Table: <https://ui.shadcn.com/docs/components/table>
+- shadcn/ui — Table: <https://ui.shadcn.com/docs/components/table> -->
+
+
+# Phase 6 — Admin Dashboard
+
+**Status:** 🟡 In progress
+**Goal:** the admin's `/dashboard` shows real stats and a table of all appointments, with
+Confirm/Cancel actions.
+
+> 👋 **Beginner note:** only 2 Parts — this phase mostly reuses what you've built. Read
+> [`admin-concepts.md`](./admin-concepts.md) first; it's largely "spot the pattern you
+> already know."
+
+---
+
+## What you'll learn
+- Loading related data with Prisma `include` (show the customer's name)
+- Computing simple **stats** on the server
+- Reusing components across pages (the admin actions mirror the customer's Cancel button)
+- **Defense in depth** — security checked on both the page and the API
+
+---
+
+# Part A — Admin actions ⚙️
+
+### A1. Create the Confirm/Cancel component
+**👉 Follow [`admin-actions.txt`](./admin-actions.txt)** to create
+**`components/ui/admin-actions.tsx`** (a client component with Confirm + Cancel buttons that
+PATCH the appointment and refresh).
+- [ ] `AdminActions` component created
+
+### ✅ Test this Part
+- [ ] `npm run build` passes once Part B uses it (do A then B, then test).
+
+---
+
+# Part B — The dashboard 📊
+
+### B1. Rewrite the dashboard page
+**👉 Follow [`dashboard-page.txt`](./dashboard-page.txt)** to **rewrite**
+**`app/dashboard/page.tsx`** — keep the admin guard and header, replace the placeholder
+boxes with real stat cards and a management table.
+- [ ] Stat cards show real numbers (total, pending, confirmed, customers)
+- [ ] The table lists all appointments with the customer's name
+- [ ] Each row has working Confirm/Cancel actions
+
+### ✅ Test this Part (end-to-end)
+- [ ] Log in as the **admin** (`admin@bookease.com` / `Password123!`) and open `/dashboard`.
+- [ ] You see stat cards with real counts and a table of **all** appointments (from all
+      customers), each showing the customer's name.
+- [ ] Click **Confirm** on a PENDING appointment → its badge changes to CONFIRMED and the
+      "Confirmed" stat goes up (no full reload).
+- [ ] Click **Cancel** → badge changes to CANCELLED.
+- [ ] Check Prisma Studio → the changes saved.
+- [ ] Log in as a **customer** and visit `/dashboard` → you're redirected away (still
+      admin-only).
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+- [ ] `/dashboard` shows real stats and all appointments (with customer names via `include`)
+- [ ] Confirm and Cancel work and update the page via `router.refresh()`
+- [ ] `/dashboard` is still admin-only (customers redirected)
+- [ ] `npm run build` passes
+- [ ] The Notes task below is done
+
+When both Parts pass, **stop and ask for a review.** Only Phase 7 remains after this.
+
+---
+
+## 📝 Notes task (required — please don't skip 🙏)
+Answer briefly in the Notes section (1–2 sentences each):
+
+- [ ] **Q1.** What does Prisma `include` do in your dashboard query, and why do you use
+      `select` inside it?
+- [ ] **Q2.** The admin can confirm appointments. Name the **two** places that enforce
+      "only admins can confirm," and why having both matters.
+- [ ] **Q3.** How is this admin dashboard similar to, and different from, the customer's
+      `/appointments` page?
+
+---
+
+## Common mistakes to avoid
+- **Putting `"use client"` on the dashboard page.** It's a *server* component; only
+  `AdminActions` is a client component.
+- **Forgetting `include`** — without it, `appt.user` is undefined and the customer name
+  errors.
+- **`select`ing the password** — only pull `firstName`, `lastName`, `email`. Never load the
+  password into the page.
+- **Missing `key={appt.id}`** on the mapped table rows.
+
+---
+
+## Notes (write your answers here)
+**Q1 (what include/select do):**
+
+**Q2 (two places admin-confirm is enforced, and why both):**
+
+**Q3 (similar to / different from the customer dashboard):**
+
+---
+
+## Resources
+- Prisma — relation queries (`include` / `select`): <https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries>
+- Prisma — count: <https://www.prisma.io/docs/orm/prisma-client/queries/aggregation-grouping-summarizing>
+- Next.js — server & client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>

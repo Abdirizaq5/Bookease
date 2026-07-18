@@ -82,7 +82,7 @@ and the browser console.
 - zod: <https://zod.dev>
 - Next.js route handlers: <https://nextjs.org/docs/app/building-your-application/routing/route-handlers> -->
 
-# Troubleshooting — Phase 5 (dashboard) blockers
+<!-- # Troubleshooting — Phase 5 (dashboard) blockers
 
 Each entry: **what you'll see → why → fix.** Still stuck? Send the reviewer the exact step +
 the full error (terminal **and** browser console).
@@ -161,4 +161,86 @@ console.
 ## Reference shelf
 - Next.js server/client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>
 - Next.js useRouter: <https://nextjs.org/docs/app/api-reference/functions/use-router>
-- shadcn table: <https://ui.shadcn.com/docs/components/table>
+- shadcn table: <https://ui.shadcn.com/docs/components/table> -->
+
+
+
+
+
+# Troubleshooting — Phase 6 (admin dashboard) blockers
+
+Each entry: **what you'll see → why → fix.** Still stuck? Send the reviewer the exact step +
+the full error (terminal **and** browser console).
+
+---
+
+## 1. Error: `Cannot read properties of undefined (reading 'firstName')`
+
+**Why:** you're reading `appt.user.firstName` but didn't `include` the user in the query.
+
+**Fix:** add `include: { user: { select: { firstName: true, lastName: true, email: true } } }`
+to the `findMany` call.
+
+---
+
+## 2. "Cannot find module '@/components/ui/admin-actions'"
+
+**Why:** the component doesn't exist yet, or the name/path is off.
+
+**Fix:** create `components/ui/admin-actions.tsx` (Part A) before rewriting the dashboard.
+
+---
+
+## 3. Error about `useState`/`onClick` in a server component
+
+**Why:** interactive code ended up in the server dashboard, or `AdminActions` is missing
+`"use client"`.
+
+**Fix:** the dashboard page has **no** `"use client"`. `components/ui/admin-actions.tsx`
+**starts** with `"use client"`.
+
+---
+
+## 4. Confirm/Cancel returns 403 even as the admin
+
+**Why:** `session.user.role` isn't `"ADMIN"` (the role isn't reaching the session).
+
+**Fix:** log in as the seeded admin. If it still fails, re-check Phase 2's session callback
+and `types/next-auth.d.ts`, then log out and back in (the token is built at login).
+
+---
+
+## 5. Stats show 0 even though there are appointments
+
+**Why:** you're filtering the wrong field or value.
+
+**Fix:** status values are exactly `PENDING`, `CONFIRMED`, `CANCELLED` (uppercase). Check
+your `.filter((a) => a.status === "PENDING")` spelling/case.
+
+---
+
+## 6. The table/stats don't update after Confirm/Cancel
+
+**Why:** `router.refresh()` wasn't called, or the PATCH failed.
+
+**Fix:** confirm `AdminActions` calls `router.refresh()` after a successful response. Check
+the PATCH request in the Network tab for its status.
+
+---
+
+## 7. Admin dashboard shows only the admin's own appointments
+
+**Why:** a leftover `where: { userId: ... }` on the query.
+
+**Fix:** the admin query should have **no** userId filter — it loads *all* appointments.
+(That filter belongs on the customer's `/appointments` page, not here.)
+
+---
+
+## Still stuck?
+Send: which Part/step, what you clicked, and the full error from the terminal + browser
+console.
+
+## Reference shelf
+- Prisma relation queries: <https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries>
+- Next.js server/client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>
