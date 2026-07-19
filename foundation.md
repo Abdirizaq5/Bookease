@@ -1148,10 +1148,10 @@ Confirm/Cancel actions.
 **👉 Follow [`admin-actions.txt`](./admin-actions.txt)** to create
 **`components/ui/admin-actions.tsx`** (a client component with Confirm + Cancel buttons that
 PATCH the appointment and refresh).
-- [ ] `AdminActions` component created
+- [x] `AdminActions` component created
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes once Part B uses it (do A then B, then test).
+- [x] `npm run build` passes once Part B uses it (do A then B, then test).
 
 ---
 
@@ -1161,29 +1161,29 @@ PATCH the appointment and refresh).
 **👉 Follow [`dashboard-page.txt`](./dashboard-page.txt)** to **rewrite**
 **`app/dashboard/page.tsx`** — keep the admin guard and header, replace the placeholder
 boxes with real stat cards and a management table.
-- [ ] Stat cards show real numbers (total, pending, confirmed, customers)
-- [ ] The table lists all appointments with the customer's name
-- [ ] Each row has working Confirm/Cancel actions
+- [x] Stat cards show real numbers (total, pending, confirmed, customers)
+- [x] The table lists all appointments with the customer's name
+- [x] Each row has working Confirm/Cancel actions
 
 ### ✅ Test this Part (end-to-end)
-- [ ] Log in as the **admin** (`admin@bookease.com` / `Password123!`) and open `/dashboard`.
-- [ ] You see stat cards with real counts and a table of **all** appointments (from all
+- [x] Log in as the **admin** (`admin@bookease.com` / `Password123!`) and open `/dashboard`.
+- [x] You see stat cards with real counts and a table of **all** appointments (from all
       customers), each showing the customer's name.
-- [ ] Click **Confirm** on a PENDING appointment → its badge changes to CONFIRMED and the
+- [x] Click **Confirm** on a PENDING appointment → its badge changes to CONFIRMED and the
       "Confirmed" stat goes up (no full reload).
-- [ ] Click **Cancel** → badge changes to CANCELLED.
-- [ ] Check Prisma Studio → the changes saved.
-- [ ] Log in as a **customer** and visit `/dashboard` → you're redirected away (still
+- [x] Click **Cancel** → badge changes to CANCELLED.
+- [x] Check Prisma Studio → the changes saved.
+- [x] Log in as a **customer** and visit `/dashboard` → you're redirected away (still
       admin-only).
 
 ---
 
 ## ✅ Definition of done (what the reviewer will check)
-- [ ] `/dashboard` shows real stats and all appointments (with customer names via `include`)
-- [ ] Confirm and Cancel work and update the page via `router.refresh()`
-- [ ] `/dashboard` is still admin-only (customers redirected)
-- [ ] `npm run build` passes
-- [ ] The Notes task below is done
+- [x] `/dashboard` shows real stats and all appointments (with customer names via `include`)
+- [x] Confirm and Cancel work and update the page via `router.refresh()`
+- [x] `/dashboard` is still admin-only (customers redirected)
+- [x] `npm run build` passes
+- [x] The Notes task below is done
 
 When both Parts pass, **stop and ask for a review.** Only Phase 7 remains after this.
 
@@ -1192,11 +1192,11 @@ When both Parts pass, **stop and ask for a review.** Only Phase 7 remains after 
 ## 📝 Notes task (required — please don't skip 🙏)
 Answer briefly in the Notes section (1–2 sentences each):
 
-- [ ] **Q1.** What does Prisma `include` do in your dashboard query, and why do you use
+- [x] **Q1.** What does Prisma `include` do in your dashboard query, and why do you use
       `select` inside it?
-- [ ] **Q2.** The admin can confirm appointments. Name the **two** places that enforce
+- [x] **Q2.** The admin can confirm appointments. Name the **two** places that enforce
       "only admins can confirm," and why having both matters.
-- [ ] **Q3.** How is this admin dashboard similar to, and different from, the customer's
+- [x] **Q3.** How is this admin dashboard similar to, and different from, the customer's
       `/appointments` page?
 
 ---
@@ -1214,10 +1214,11 @@ Answer briefly in the Notes section (1–2 sentences each):
 
 ## Notes (write your answers here)
 **Q1 (what include/select do):**
-
+- Include loads related data, such as the appointment's customer. Select limits the fields returned to only what is needed and avoids sensitive data.
 **Q2 (two places admin-confirm is enforced, and why both):**
-
+- It is enforced on the /dashboard page and the PATCH API endpoint. Both are needed so the UI is protected and the server still blocks unauthorized actions.
 **Q3 (similar to / different from the customer dashboard):**
+- Both display appointments using server-side data and shared components. The admin dashboard shows all customers' appointments, stats, and Confirm/Cancel actions, while customers only see their own appointments.
 
 ---
 
