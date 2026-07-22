@@ -167,7 +167,7 @@ console.
 
 
 
-# Troubleshooting — Phase 6 (admin dashboard) blockers
+<!-- # Troubleshooting — Phase 6 (admin dashboard) blockers
 
 Each entry: **what you'll see → why → fix.** Still stuck? Send the reviewer the exact step +
 the full error (terminal **and** browser console).
@@ -243,4 +243,86 @@ console.
 
 ## Reference shelf
 - Prisma relation queries: <https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries>
-- Next.js server/client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>
+- Next.js server/client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns> -->
+
+
+
+# Troubleshooting — Phase 7 (polish & deploy) blockers
+
+Each entry: **what you'll see → why → fix.** For deployment-specific problems, also see the
+troubleshooting table in [`deploy-to-vercel.md`](./deploy-to-vercel.md).
+
+---
+
+## 1. Nav bar error about `useSession`/hooks
+
+**Why:** the nav bar shouldn't use client hooks — it's a server component that uses
+`getServerSession`.
+
+**Fix:** `components/ui/nav-bar.tsx` has **no** `"use client"`. Only the `SignOutButton` it
+renders is a client component (and you already built that).
+
+---
+
+## 2. `error.tsx` build error: "must be a Client Component"
+
+**Why:** Next.js requires the error file to be a client component.
+
+**Fix:** put `"use client"` as the first line of `app/error.tsx`, and make sure it accepts
+`{ error, reset }` and default-exports the component.
+
+---
+
+## 3. I pasted all three loading/error blocks into one file
+
+**Why:** the guide shows three *separate* files.
+
+**Fix:** create them at their own paths: `app/appointments/loading.tsx`,
+`app/dashboard/loading.tsx`, `app/error.tsx`. Each has its own default export.
+
+---
+
+## 4. Nav links reload the whole page
+
+**Why:** you used `<a>` instead of `<Link>`.
+
+**Fix:** import `Link from "next/link"` and use `<Link href="...">`. `Link` does fast
+client-side navigation; plain `<a>` does a full reload.
+
+---
+
+## 5. Vercel build fails: "Prisma Client not generated"
+
+**Why:** the generated client is git-ignored, so Vercel must generate it during the build.
+
+**Fix:** set the build script to `"prisma generate && next build"` (see
+`deploy-to-vercel.md` Step 1), commit, and push.
+
+---
+
+## 6. Live site: login fails or loops
+
+**Why:** `NEXTAUTH_URL` is missing or doesn't match the live domain.
+
+**Fix:** set `NEXTAUTH_URL` to the exact Vercel URL, then redeploy (`deploy-to-vercel.md`
+Step 6).
+
+---
+
+## 7. Live site: pages error with a database message
+
+**Why:** `DATABASE_URL` isn't set in Vercel, or isn't set for the **Production** environment.
+
+**Fix:** add `DATABASE_URL` (Neon **pooled** connection string) in Vercel → Settings →
+Environment Variables, for Production, then redeploy.
+
+---
+
+## Still stuck?
+Send the reviewer: which Part/step, and the full error — for deploy issues, include the
+**Vercel build log** (Deployments → the failed one → build logs).
+
+## Reference shelf
+- Next.js file conventions: <https://nextjs.org/docs/app/api-reference/file-conventions>
+- Vercel deployment: <https://vercel.com/docs/deployments/overview>
+- NextAuth deployment: <https://next-auth.js.org/deployment>

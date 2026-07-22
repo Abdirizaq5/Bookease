@@ -1122,7 +1122,7 @@ Answer briefly in the Notes section (1–2 sentences each):
 - shadcn/ui — Table: <https://ui.shadcn.com/docs/components/table> -->
 
 
-# Phase 6 — Admin Dashboard
+<!-- # Phase 6 — Admin Dashboard
 
 **Status:** 🟡 In progress
 **Goal:** the admin's `/dashboard` shows real stats and a table of all appointments, with
@@ -1225,4 +1225,138 @@ Answer briefly in the Notes section (1–2 sentences each):
 ## Resources
 - Prisma — relation queries (`include` / `select`): <https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries>
 - Prisma — count: <https://www.prisma.io/docs/orm/prisma-client/queries/aggregation-grouping-summarizing>
-- Next.js — server & client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns>
+- Next.js — server & client components: <https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns> -->
+
+# Phase 7 — Polish & Deploy
+
+**Status:** 🟡 In progress
+**Goal:** polish the app (navigation, loading/error states, cleanup) and deploy it live to
+Vercel.
+
+> 👋 **Beginner note:** 4 Parts. Do the code parts (A–C) and get a clean `npm run build`
+> **before** deploying (Part D). Deploy something that already works.
+
+---
+
+## What you'll learn
+- Building a session-aware **navigation** bar (server component + `Link`)
+- Next.js **special files**: `loading.tsx` and `error.tsx`
+- Cleaning up dead code and dangling UI
+- **Deploying** a full-stack Next.js + Prisma app to Vercel
+
+---
+
+# Part A — Navigation bar 🧭
+
+### A1. Create the nav bar and wire it in
+**👉 Follow [`nav-bar.txt`](./nav-bar.txt)** to create **`components/ui/nav-bar.tsx`** and
+add `<NavBar />` to **`app/layout.tsx`**.
+- [ ] `NavBar` created and shown on every page
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+- [ ] Logged out → nav shows "Log in / Sign up". Logged in → "Book / My Appointments / name /
+      Sign out". Logged in as admin → an "Admin" link also appears.
+
+---
+
+# Part B — Loading & error states ⏳
+
+### B1. Add loading and error files
+**👉 Follow [`loading-error.txt`](./loading-error.txt)** to create **three** files:
+`app/appointments/loading.tsx`, `app/dashboard/loading.tsx`, and `app/error.tsx`.
+- [ ] All three files created (each is separate — don't merge them)
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+- [ ] With DevTools → Network → "Slow 3G", opening `/appointments` briefly shows "Loading…".
+
+---
+
+# Part C — Cleanup & landing page 🧹
+
+### C1. Delete the old commented-out code
+**File to edit:** `app/api/appointments/route.ts`. Delete the big block of commented-out old
+code (the `// ...` lines below the working code). Git remembers it — you don't need it.
+- [ ] The appointments route contains only the active code
+
+### C2. Fix the landing page's fake form
+**File to edit:** `app/page.tsx`. The booking **section still has a decorative `<form>`**
+that doesn't work (real booking is at `/book`). Replace that `<form>…</form>` with a button
+that links to the real page:
+```tsx
+<div className="text-center">
+  <a
+    href="/book"
+    className="inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+  >
+    Book an Appointment
+  </a>
+</div>
+```
+- [ ] The landing page no longer shows a fake form; it links to `/book`
+
+### ✅ Test this Part
+- [ ] `npm run build` passes.
+- [ ] The landing page's "Book an Appointment" button takes you to `/book`.
+
+---
+
+# Part D — Deploy to Vercel 🚀
+
+**👉 Follow the full walkthrough in [`deploy-to-vercel.md`](./deploy-to-vercel.md).**
+It covers: the one build-script change, pushing to GitHub, importing on Vercel, setting the
+environment variables, and verifying the live site.
+
+- [ ] `package.json` build script runs `prisma generate && next build`
+- [ ] Project imported on Vercel with `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` set
+- [ ] The live site works: sign up, log in, book, and the admin dashboard
+- [ ] Share your live URL with the reviewer 🎉
+
+---
+
+## ✅ Definition of done (what the reviewer will check)
+- [ ] Nav bar on every page, correct for logged-out / customer / admin
+- [ ] `loading.tsx` (x2) and `error.tsx` exist and work
+- [ ] Old commented code removed; landing page links to `/book`
+- [ ] `npm run build` passes
+- [ ] The app is **deployed** and the live URL works end to end
+- [ ] The final Notes below are done
+
+When everything passes, tell the reviewer for the **whole-project review**. 🏁
+
+---
+
+## 📝 Final Notes task (required)
+This is the last one — make it count:
+
+- [ ] **Q1.** Why did we add `prisma generate` to the build script for deployment? What
+      breaks without it?
+- [ ] **Q2.** What does `NEXTAUTH_URL` do in production, and what happens if it's wrong?
+- [ ] **Q3.** **Looking back at the whole project:** what are you most proud of, and what was
+      the hardest thing you learned? (2–3 sentences.)
+
+---
+
+## Common mistakes to avoid
+- **Deploying before Parts A–C build cleanly.** Fix local build first.
+- **Forgetting the build-script change** — the Vercel build fails without `prisma generate`.
+- **Wrong `NEXTAUTH_URL`** — login won't work on the live site.
+- **Committing `.env`** — set secrets in Vercel's dashboard, never in the repo.
+
+---
+
+## Notes (write your answers here)
+**Q1 (why prisma generate in the build):**
+
+**Q2 (what NEXTAUTH_URL does):**
+
+**Q3 (whole-project reflection):**
+
+---
+
+## Resources
+- Next.js — `loading.tsx`: <https://nextjs.org/docs/app/api-reference/file-conventions/loading>
+- Next.js — `error.tsx`: <https://nextjs.org/docs/app/api-reference/file-conventions/error>
+- Next.js — `Link`: <https://nextjs.org/docs/app/api-reference/components/link>
+- Vercel — Deploy Next.js: <https://vercel.com/docs/frameworks/nextjs>

@@ -172,7 +172,7 @@ Phase 6** until we've reviewed Phase 5. -->
 
 
 
-# Phase 6 — Admin Dashboard (how this phase works)
+<!-- # Phase 6 — Admin Dashboard (how this phase works)
 
 > 🚦 **New here? Open [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) first**, then read
 > [`admin-concepts.md`](./admin-concepts.md). This `readme.md` explains *how* the phase and
@@ -232,4 +232,56 @@ earlier phases were well structured. 🎉
 
 ## When you're done
 Finish `foundation.md`, complete the Notes task, then tell the reviewer. Then it's just
-**Phase 7 (Polish & Deploy)** to go.
+**Phase 7 (Polish & Deploy)** to go. -->
+
+
+
+
+# Phase 7 — Polish & Deploy (how this phase works)
+
+> 🚦 **New here? Open [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) first.** This
+> `readme.md` explains how the phase and its files work.
+
+**Goal:** polish the rough edges and deploy BookEase live to Vercel.
+
+---
+
+## How this phase is different
+
+The feature phases each built one big thing. This one is a **checklist of smaller
+improvements** plus a **deployment**:
+
+- **Parts A–C are code** — a nav bar, loading/error states, and cleanup. Same guide-file
+  style as always: read, then type the real code.
+- **Part D is a deployment** — you follow step-by-step instructions on the Vercel website.
+  There's no "code to type" for the deploy itself, but there **is** one small code change
+  first (so the build works in production).
+
+Do the code parts and get a clean local build **before** deploying. Deploy something that
+already works.
+
+---
+
+## Read in this order
+1. [`STUDENT-START-HERE.md`](./STUDENT-START-HERE.md) — summary + path
+2. This file (`readme.md`) — how it works
+3. [`foundation.md`](./foundation.md) — the tasks (Parts A–D)
+4. [`deploy-to-vercel.md`](./deploy-to-vercel.md) — the deployment walkthrough (Part D)
+5. [`troubleshooting.md`](./troubleshooting.md) — when stuck
+
+---
+
+## Guide files & files you'll create or edit
+
+| Guide file | Real file(s) | Part |
+|---|---|---|
+| [`nav-bar.txt`](./nav-bar.txt) | `components/ui/nav-bar.tsx` (create) + `app/layout.tsx` (edit) | A |
+| [`loading-error.txt`](./loading-error.txt) | `app/appointments/loading.tsx`, `app/dashboard/loading.tsx`, `app/error.tsx` (create) | B |
+| — (inline in foundation) | `app/api/appointments/route.ts` (cleanup), `app/page.tsx` (landing CTA) | C |
+| [`deploy-to-vercel.md`](./deploy-to-vercel.md) | `package.json` (build script) + Vercel setup | D |
+
+---
+
+## When you're done
+Finish `foundation.md`, complete the final Notes, then tell the reviewer for the
+**whole-project review**. 🎉
