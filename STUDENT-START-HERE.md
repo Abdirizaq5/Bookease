@@ -207,7 +207,7 @@ Work one Part at a time and run its "✅ Test this Part" step before moving on.
 Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
 We'll review, then unlock **Phase 6 (Admin Dashboard)** — the last big feature. 🚀 -->
 
-# 👋 START HERE — Phase 6: Admin Dashboard
+<!-- # 👋 START HERE — Phase 6: Admin Dashboard
 
 The last big feature! You've built the customer side; now build the **admin** side. The
 admin opens `/dashboard` and sees **every** appointment (with the customer's name), some
@@ -268,4 +268,71 @@ and table (Phase 5). That's what good architecture feels like.
 
 ## ✅ When you're finished
 Tick every box in `foundation.md`, complete the **Notes** task, and tell the reviewer.
-After Phase 6, only **Phase 7 (Polish & Deploy)** remains. 🚀
+After Phase 6, only **Phase 7 (Polish & Deploy)** remains. 🚀 -->
+
+
+
+# 👋 START HERE — Phase 7: Polish & Deploy (the finish line! 🏁)
+
+Your app **works**. This final phase makes it feel finished and puts it **live on the
+internet** for anyone to use.
+
+Phase 7 is different from the others: it's a mix of small **polish** improvements and a
+**deployment**. Some parts are code (like the others); the deploy part is step-by-step
+instructions you follow on the Vercel website.
+
+---
+
+## 🎯 What you'll achieve in Phase 7
+
+- ✅ A **navigation bar** so people can actually move around the app (no more typing URLs)
+- ✅ **Loading and error states** so pages feel smooth, not broken, while data loads
+- ✅ **Cleanup**: remove dead code, and fix the landing page's fake form
+- ✅ Your app **deployed to Vercel** — a real, shareable URL 🌍
+
+---
+
+## 🗺️ The path to follow (in order)
+
+```
+1. Read  STUDENT-START-HERE.md   ← you are here
+2. Read  readme.md               ← how this phase works
+3. Open  foundation.md           ← THE task list, in 4 parts:
+         Part A — navigation bar
+         Part B — loading & error states
+         Part C — cleanup & landing page
+         Part D — deploy to Vercel  (follow deploy-to-vercel.md)
+4. Stuck?  → troubleshooting.md
+5. Done?   → tell the reviewer. This is the last phase — we'll do a final review together. 🎉
+```
+
+Do Parts A–C (the code) and get a clean build **before** Part D (deploy). You want to deploy
+something that already works locally.
+
+---
+
+## 📁 What each file is for
+
+| File | What it's for | When |
+|---|---|---|
+| `STUDENT-START-HERE.md` | This overview | First |
+| `readme.md` | How the phase + guide files work | Second |
+| `foundation.md` | The task list (Parts A–D) | Your main document |
+| `troubleshooting.md` | Fixes for common blockers | When stuck |
+| `nav-bar.txt` | Explained code → `components/ui/nav-bar.tsx` | Part A |
+| `loading-error.txt` | Explained code → loading/error files | Part B |
+| `deploy-to-vercel.md` | Full deployment walkthrough | Part D |
+
+---
+
+## 🚧 Before you start
+- Phases 0–6 should all be working (the whole app runs locally).
+- For Part D you'll need a **Vercel account** (free) and your **Neon** database connection
+  string (from Phase 0). We'll walk through it.
+
+---
+
+## ✅ When you're finished
+Tick every box in `foundation.md`, complete the **final Notes**, and tell the reviewer.
+Then we'll do a **whole-project review** together. You'll have built and shipped a complete
+full-stack app. 🚀
