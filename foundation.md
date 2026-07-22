@@ -1251,11 +1251,11 @@ Vercel.
 ### A1. Create the nav bar and wire it in
 **👉 Follow [`nav-bar.txt`](./nav-bar.txt)** to create **`components/ui/nav-bar.tsx`** and
 add `<NavBar />` to **`app/layout.tsx`**.
-- [ ] `NavBar` created and shown on every page
+- [x] `NavBar` created and shown on every page
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
-- [ ] Logged out → nav shows "Log in / Sign up". Logged in → "Book / My Appointments / name /
+- [x] `npm run build` passes.
+- [x] Logged out → nav shows "Log in / Sign up". Logged in → "Book / My Appointments / name /
       Sign out". Logged in as admin → an "Admin" link also appears.
 
 ---
