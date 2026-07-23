@@ -1265,11 +1265,11 @@ add `<NavBar />` to **`app/layout.tsx`**.
 ### B1. Add loading and error files
 **👉 Follow [`loading-error.txt`](./loading-error.txt)** to create **three** files:
 `app/appointments/loading.tsx`, `app/dashboard/loading.tsx`, and `app/error.tsx`.
-- [ ] All three files created (each is separate — don't merge them)
+- [x] All three files created (each is separate — don't merge them)
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
-- [ ] With DevTools → Network → "Slow 3G", opening `/appointments` briefly shows "Loading…".
+- [x] `npm run build` passes.
+- [x] With DevTools → Network → "Slow 3G", opening `/appointments` briefly shows "Loading…".
 
 ---
 
@@ -1278,7 +1278,7 @@ add `<NavBar />` to **`app/layout.tsx`**.
 ### C1. Delete the old commented-out code
 **File to edit:** `app/api/appointments/route.ts`. Delete the big block of commented-out old
 code (the `// ...` lines below the working code). Git remembers it — you don't need it.
-- [ ] The appointments route contains only the active code
+- [x] The appointments route contains only the active code
 
 ### C2. Fix the landing page's fake form
 **File to edit:** `app/page.tsx`. The booking **section still has a decorative `<form>`**
@@ -1294,11 +1294,11 @@ that links to the real page:
   </a>
 </div>
 ```
-- [ ] The landing page no longer shows a fake form; it links to `/book`
+- [x] The landing page no longer shows a fake form; it links to `/book`
 
 ### ✅ Test this Part
-- [ ] `npm run build` passes.
-- [ ] The landing page's "Book an Appointment" button takes you to `/book`.
+- [x] `npm run build` passes.
+- [x] The landing page's "Book an Appointment" button takes you to `/book`.
 
 ---
 
@@ -1308,20 +1308,20 @@ that links to the real page:
 It covers: the one build-script change, pushing to GitHub, importing on Vercel, setting the
 environment variables, and verifying the live site.
 
-- [ ] `package.json` build script runs `prisma generate && next build`
-- [ ] Project imported on Vercel with `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` set
-- [ ] The live site works: sign up, log in, book, and the admin dashboard
-- [ ] Share your live URL with the reviewer 🎉
+- [x] `package.json` build script runs `prisma generate && next build`
+- [x] Project imported on Vercel with `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` set
+- [x] The live site works: sign up, log in, book, and the admin dashboard
+- [x] Share your live URL with the reviewer 🎉
 
 ---
 
 ## ✅ Definition of done (what the reviewer will check)
-- [ ] Nav bar on every page, correct for logged-out / customer / admin
-- [ ] `loading.tsx` (x2) and `error.tsx` exist and work
-- [ ] Old commented code removed; landing page links to `/book`
-- [ ] `npm run build` passes
-- [ ] The app is **deployed** and the live URL works end to end
-- [ ] The final Notes below are done
+- [x] Nav bar on every page, correct for logged-out / customer / admin
+- [x] `loading.tsx` (x2) and `error.tsx` exist and work
+- [x] Old commented code removed; landing page links to `/book`
+- [x] `npm run build` passes
+- [x] The app is **deployed** and the live URL works end to end
+- [x] The final Notes below are done
 
 When everything passes, tell the reviewer for the **whole-project review**. 🏁
 
@@ -1330,10 +1330,10 @@ When everything passes, tell the reviewer for the **whole-project review**. 🏁
 ## 📝 Final Notes task (required)
 This is the last one — make it count:
 
-- [ ] **Q1.** Why did we add `prisma generate` to the build script for deployment? What
+- [x] **Q1.** Why did we add `prisma generate` to the build script for deployment? What
       breaks without it?
-- [ ] **Q2.** What does `NEXTAUTH_URL` do in production, and what happens if it's wrong?
-- [ ] **Q3.** **Looking back at the whole project:** what are you most proud of, and what was
+- [x] **Q2.** What does `NEXTAUTH_URL` do in production, and what happens if it's wrong?
+- [x] **Q3.** **Looking back at the whole project:** what are you most proud of, and what was
       the hardest thing you learned? (2–3 sentences.)
 
 ---
@@ -1348,10 +1348,11 @@ This is the last one — make it count:
 
 ## Notes (write your answers here)
 **Q1 (why prisma generate in the build):**
-
+- Prisma generate creates the Prisma Client from the Prisma schema during the build. Since the generated client isn't stored in the repository, Vercel needs to generate it before next build. Without it, the build fails because the Prisma Client can't be found.
 **Q2 (what NEXTAUTH_URL does):**
-
+- NEXTAUTH_URL tells NextAuth the application's public production URL. It uses this URL for authentication callbacks and redirects. If it's missing or incorrect, users may be unable to sign in or may experience redirect loops.
 **Q3 (whole-project reflection):**
+- I’m proud of building a complete full-stack application from start to finish and deploying it online. The most challenging part was learning how authentication, the database and server-side rendering work together.
 
 ---
 

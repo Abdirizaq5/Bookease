@@ -100,48 +100,6 @@ export default function HomePage() {
               Book an Appointment
             </a>
           </div>  
-
-          <form className="space-y-4 rounded-xl border bg-white p-8 shadow">
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            <select className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Select Service</option>
-              <option>Consultation</option>
-              <option>Fitness Training</option>
-              <option>Medical Checkup</option>
-              <option>Business Meeting</option>
-              <option>Haircut & Styling</option>
-              <option>Photography Session</option>
-              <option>Car Service</option>
-            </select>
-
-            <input
-              type="date"
-              className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            <input
-              type="time"
-              className="w-full rounded-lg border p-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            <button
-              type="submit"
-              className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
-            >
-              Confirm Booking
-            </button>
-          </form>
         </div>
       </section>
 
